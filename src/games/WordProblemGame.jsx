@@ -54,9 +54,47 @@ const MULT_STORIES = [
   }),
 ]
 
+const HALF_STORIES = [
+  (n, a, f) => ({
+    text: `🍬 ${n} has ${a} sweets. ${f} has half as many. How many sweets does ${f} have?`,
+    emoji: '🍬',
+    count: a,
+  }),
+  (n, a, f) => ({
+    text: `🍪 ${n} has ${a} cookies and gives half to ${f}. How many cookies does ${f} get?`,
+    emoji: '🍪',
+    count: a,
+  }),
+  (n, a, f) => ({
+    text: `🎈 ${n} and ${f} share ${a} balloons equally. How many balloons does each get?`,
+    emoji: '🎈',
+    count: a,
+  }),
+]
+
+const DOUBLE_STORIES = [
+  (n, a, f) => ({
+    text: `⭐ ${n} has ${a} stickers. ${f} has double that. How many stickers does ${f} have?`,
+    emoji: '⭐',
+    count: a,
+  }),
+  (n, a, f) => ({
+    text: `🐟 ${n} catches ${a} fish. ${f} catches double that. How many fish does ${f} catch?`,
+    emoji: '🐟',
+    count: a,
+  }),
+  (n, a, f) => ({
+    text: `🍎 On Monday ${n} picks ${a} apples. On Tuesday ${f} picks double. How many apples does ${f} pick?`,
+    emoji: '🍎',
+    count: a,
+  }),
+]
+
 function makeQuestion(settings) {
   const name = NAMES[randInt(0, NAMES.length - 1)]
-  const pool = ['add', 'sub']
+  let friend = NAMES[randInt(0, NAMES.length - 1)]
+  while (friend === name) friend = NAMES[randInt(0, NAMES.length - 1)]
+  const pool = ['add', 'sub', 'half', 'double']
   if (settings.multiply) pool.push('mult')
   const op = pool[randInt(0, pool.length - 1)]
 
@@ -71,11 +109,19 @@ function makeQuestion(settings) {
     b = randInt(1, a)
     answer = a - b
     story = SUB_STORIES[randInt(0, SUB_STORIES.length - 1)](name, a, b)
-  } else {
+  } else if (op === 'mult') {
     a = settings.multTables[randInt(0, settings.multTables.length - 1)]
     b = randInt(2, settings.multMax)
     answer = a * b
     story = MULT_STORIES[randInt(0, MULT_STORIES.length - 1)](name, a, b)
+  } else if (op === 'half') {
+    a = 2 * randInt(1, Math.floor(settings.maxHalf / 2))
+    answer = a / 2
+    story = HALF_STORIES[randInt(0, HALF_STORIES.length - 1)](name, a, friend)
+  } else {
+    a = randInt(1, settings.maxDouble)
+    answer = a * 2
+    story = DOUBLE_STORIES[randInt(0, DOUBLE_STORIES.length - 1)](name, a, friend)
   }
 
   return { text: story.text, emoji: story.emoji, count: story.count, answer }

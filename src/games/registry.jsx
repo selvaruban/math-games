@@ -43,7 +43,7 @@ export const GAMES = {
   },
   addition: {
     id: 'addition',
-    title: 'Adding',
+    title: 'Add',
     icon: '➕',
     color: '#06d6a0',
     blurb: 'Add the two numbers together!',
@@ -91,13 +91,23 @@ export const GAMES = {
     blurb: 'Read the story and work out the answer!',
     component: WordProblemGame,
     settingsFor(age) {
-      if (age === 6) return { maxSum: 10, maxMinuend: 10, multiply: false }
+      if (age === 6) return { maxSum: 10, maxMinuend: 10, maxHalf: 10, maxDouble: 5, multiply: false }
       if (age === 7)
-        return { maxSum: 20, maxMinuend: 20, multiply: true, multTables: [2, 5, 10], multMax: 5 }
+        return {
+          maxSum: 20,
+          maxMinuend: 20,
+          maxHalf: 20,
+          maxDouble: 10,
+          multiply: true,
+          multTables: [2, 5, 10],
+          multMax: 5,
+        }
       if (age === 8)
         return {
           maxSum: 50,
           maxMinuend: 50,
+          maxHalf: 50,
+          maxDouble: 25,
           multiply: true,
           multTables: [2, 3, 4, 5, 6, 7, 8, 9],
           multMax: 6,
