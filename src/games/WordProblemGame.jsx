@@ -81,7 +81,7 @@ function makeQuestion(settings) {
   return { text: story.text, emoji: story.emoji, count: story.count, answer }
 }
 
-function WordProblemGame({ settings, onFinish, rounds = 10 }) {
+function WordProblemGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
   const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
 
@@ -106,7 +106,19 @@ function WordProblemGame({ settings, onFinish, rounds = 10 }) {
             type="button"
             className="answer-button"
             disabled={disabled}
-            onClick={() => answer(c === q.answer, 1200, nextQuestion)}
+            onClick={() =>
+              answer(
+                {
+                  isCorrect: c === q.answer,
+                  game: gameName,
+                  question: q.text,
+                  selected: c,
+                  correctAnswer: q.answer,
+                },
+                1200,
+                nextQuestion,
+              )
+            }
           >
             {c}
           </button>

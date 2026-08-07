@@ -31,9 +31,10 @@ function makeChoices(answer, seq, step, maxStart) {
   return filtered.length >= 3 ? filtered : choices
 }
 
-function SequenceGame({ settings, onFinish, rounds = 10 }) {
+function SequenceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
   const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const question = q.seq.map((n, i) => (i === q.blankIndex ? '?' : n)).join(' · ')
 
   function nextQuestion() {
     setQ(makeQuestion(settings))
@@ -62,7 +63,19 @@ function SequenceGame({ settings, onFinish, rounds = 10 }) {
             type="button"
             className="answer-button"
             disabled={disabled}
-            onClick={() => answer(c === q.answer, 1000, nextQuestion)}
+            onClick={() =>
+              answer(
+                {
+                  isCorrect: c === q.answer,
+                  game: gameName,
+                  question,
+                  selected: c,
+                  correctAnswer: q.answer,
+                },
+                1000,
+                nextQuestion,
+              )
+            }
           >
             {c}
           </button>

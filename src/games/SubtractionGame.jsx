@@ -9,7 +9,7 @@ function randomQuestion(settings) {
   return { a, b, result: a - b }
 }
 
-function SubtractionGame({ settings, onFinish, rounds = 10 }) {
+function SubtractionGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => randomQuestion(settings))
   const [choices, setChoices] = useState(() => makeChoices(q.result))
   const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
@@ -36,7 +36,19 @@ function SubtractionGame({ settings, onFinish, rounds = 10 }) {
             type="button"
             className="answer-button"
             disabled={disabled}
-            onClick={() => answer(c === q.result, 1000, nextQuestion)}
+            onClick={() =>
+              answer(
+                {
+                  isCorrect: c === q.result,
+                  game: gameName,
+                  question: `${q.a} − ${q.b} = ?`,
+                  selected: c,
+                  correctAnswer: q.result,
+                },
+                1000,
+                nextQuestion,
+              )
+            }
           >
             {c}
           </button>

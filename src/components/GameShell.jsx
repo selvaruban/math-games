@@ -34,6 +34,7 @@ function GameShell({ level, game, onBack }) {
         key={`${level.age}-${game.id}-${attempt}`}
         settings={settings}
         onFinish={handleFinish}
+        gameName={game.title}
       />
       {result && (
         <div className="result-overlay">

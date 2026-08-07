@@ -16,7 +16,7 @@ function makeQuestion(settings) {
   return { span, labelStep, targetIdx, target, choices }
 }
 
-function NumberLineGame({ settings, onFinish, rounds = 10 }) {
+function NumberLineGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
   const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
 
@@ -51,7 +51,19 @@ function NumberLineGame({ settings, onFinish, rounds = 10 }) {
             type="button"
             className="answer-button"
             disabled={disabled}
-            onClick={() => answer(c === q.target, 1000, nextQuestion)}
+            onClick={() =>
+              answer(
+                {
+                  isCorrect: c === q.target,
+                  game: gameName,
+                  question: `Number line 0–${q.span}`,
+                  selected: c,
+                  correctAnswer: q.target,
+                },
+                1000,
+                nextQuestion,
+              )
+            }
           >
             {c}
           </button>

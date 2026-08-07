@@ -9,7 +9,7 @@ function makeQuestion(settings) {
   return { a, b, product: a * b }
 }
 
-function MultiplicationGame({ settings, onFinish, rounds = 10 }) {
+function MultiplicationGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
   const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
 
@@ -35,7 +35,19 @@ function MultiplicationGame({ settings, onFinish, rounds = 10 }) {
             type="button"
             className="answer-button"
             disabled={disabled}
-            onClick={() => answer(c === q.product, 1000, nextQuestion)}
+            onClick={() =>
+              answer(
+                {
+                  isCorrect: c === q.product,
+                  game: gameName,
+                  question: `${q.a} × ${q.b} = ?`,
+                  selected: c,
+                  correctAnswer: q.product,
+                },
+                1000,
+                nextQuestion,
+              )
+            }
           >
             {c}
           </button>

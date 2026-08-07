@@ -16,13 +16,13 @@ export function useGame(total, onFinish) {
   const roundRef = useRef(0)
 
   const answer = useCallback(
-    (isCorrect, delay = 1000, advance = () => {}) => {
-      recordAnswer(isCorrect)
-      if (isCorrect) {
+    (details, delay = 1000, advance = () => {}) => {
+      recordAnswer(details)
+      if (details?.isCorrect) {
         correctRef.current += 1
         setCorrect(correctRef.current)
       }
-      setFeedback({ ok: isCorrect })
+      setFeedback({ ok: details.isCorrect })
       setDisabled(true)
       const isLast = roundRef.current === total - 1
       window.setTimeout(() => {

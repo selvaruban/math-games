@@ -16,7 +16,7 @@ function makeQuestion(settings) {
   return { cards, target, findBiggest }
 }
 
-function BiggestSmallestGame({ settings, onFinish, rounds = 10 }) {
+function BiggestSmallestGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
   const [chosen, setChosen] = useState(null)
   const { round, disabled, answer, total } = useGame(rounds, onFinish)
@@ -24,10 +24,20 @@ function BiggestSmallestGame({ settings, onFinish, rounds = 10 }) {
   function pick(card) {
     if (disabled) return
     setChosen(card)
-    answer(card === q.target, 1000, () => {
-      setQ(makeQuestion(settings))
-      setChosen(null)
-    })
+    answer(
+      {
+        isCorrect: card === q.target,
+        game: gameName,
+        question: `Which is ${q.findBiggest ? 'biggest' : 'smallest'}: ${q.cards.join(', ')}?`,
+        selected: card,
+        correctAnswer: q.target,
+      },
+      1000,
+      () => {
+        setQ(makeQuestion(settings))
+        setChosen(null)
+      },
+    )
   }
 
   const correctCard = disabled && chosen !== q.target ? q.target : null

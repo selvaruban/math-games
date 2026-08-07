@@ -53,10 +53,16 @@ function PartWholeModel({ a, b, whole, unknown }) {
   )
 }
 
-function PartWholeGame({ settings, onFinish, rounds = 10 }) {
+function PartWholeGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
   const [choices, setChoices] = useState(() => makeChoices(q.answer))
   const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const question =
+    q.unknown === 'whole'
+      ? `${q.a} + ${q.b} = ?`
+      : q.unknown === 'a'
+        ? `? + ${q.b} = ${q.whole}`
+        : `${q.a} + ? = ${q.whole}`
 
   function nextQuestion() {
     const nq = makeQuestion(settings)
@@ -78,7 +84,19 @@ function PartWholeGame({ settings, onFinish, rounds = 10 }) {
             type="button"
             className="answer-button"
             disabled={disabled}
-            onClick={() => answer(c === q.answer, 1000, nextQuestion)}
+            onClick={() =>
+              answer(
+                {
+                  isCorrect: c === q.answer,
+                  game: gameName,
+                  question,
+                  selected: c,
+                  correctAnswer: q.answer,
+                },
+                1000,
+                nextQuestion,
+              )
+            }
           >
             {c}
           </button>

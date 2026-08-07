@@ -9,7 +9,7 @@ function makeQuestion(settings) {
   return { num: n, groups: makeGroups(n, settings) }
 }
 
-function NumberMatchGame({ settings, onFinish, rounds = 10 }) {
+function NumberMatchGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
   const [reveal, setReveal] = useState(null)
   const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
@@ -22,7 +22,17 @@ function NumberMatchGame({ settings, onFinish, rounds = 10 }) {
   function pick(size) {
     if (disabled) return
     if (size !== q.num) setReveal(q.num)
-    answer(size === q.num, 1000, nextQuestion)
+    answer(
+      {
+        isCorrect: size === q.num,
+        game: gameName,
+        question: `Which group has ${q.num}?`,
+        selected: size,
+        correctAnswer: q.num,
+      },
+      1000,
+      nextQuestion,
+    )
   }
 
   return (

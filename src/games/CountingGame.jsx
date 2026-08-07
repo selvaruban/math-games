@@ -8,7 +8,7 @@ function makeQuestion(settings) {
   return { count: n, choices: makeChoices(n, settings) }
 }
 
-function CountingGame({ settings, onFinish, rounds = 10 }) {
+function CountingGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
   const [emoji, setEmoji] = useState(randomEmoji)
   const [marked, setMarked] = useState([])
@@ -52,7 +52,19 @@ function CountingGame({ settings, onFinish, rounds = 10 }) {
             type="button"
             className="answer-button"
             disabled={disabled}
-            onClick={() => answer(c === q.count, 1000, nextQuestion)}
+            onClick={() =>
+              answer(
+                {
+                  isCorrect: c === q.count,
+                  game: gameName,
+                  question: `How many ${emoji}?`,
+                  selected: c,
+                  correctAnswer: q.count,
+                },
+                1000,
+                nextQuestion,
+              )
+            }
           >
             {c}
           </button>

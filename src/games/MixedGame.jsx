@@ -35,6 +35,7 @@ function MixedGame({ settings, onFinish }) {
       settings={current.settingsFor(settings.age)}
       rounds={1}
       onFinish={handleFinish}
+      gameName={current.title}
     />
   )
 }

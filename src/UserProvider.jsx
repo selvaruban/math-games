@@ -70,7 +70,13 @@ export function UserProvider({ children }) {
 
   const addUser = useCallback((name, emoji) => {
     setData((d) => {
-      const user = { id: makeId(), name, emoji, stats: { correct: 0, wrong: 0, points: 0 } }
+      const user = {
+        id: makeId(),
+        name,
+        emoji,
+        stats: { correct: 0, wrong: 0, points: 0 },
+        history: [],
+      }
       return { ...d, users: [...d.users, user], activeId: user.id }
     })
   }, [])
@@ -96,7 +102,9 @@ export function UserProvider({ children }) {
     setData((d) => ({
       ...d,
       users: d.users.map((u) =>
-        u.id === id ? { ...u, stats: { correct: 0, wrong: 0, points: 0 } } : u,
+        u.id === id
+          ? { ...u, stats: { correct: 0, wrong: 0, points: 0 }, history: [] }
+          : u,
       ),
     }))
   }, [])
@@ -108,24 +116,33 @@ export function UserProvider({ children }) {
     }))
   }, [])
 
-  const recordAnswer = useCallback((isCorrect) => {
+  const recordAnswer = useCallback((details) => {
     setData((d) => {
       if (!d.activeId) return d
+      const isCorrect = !!details?.isCorrect
+      const entry = {
+        id: makeId(),
+        game: details?.game || '',
+        question: details?.question || '',
+        selected: details?.selected,
+        correctAnswer: details?.correctAnswer,
+        isCorrect,
+        at: Date.now(),
+      }
       return {
         ...d,
         users: d.users.map((u) => {
           if (u.id !== d.activeId) return u
-          if (isCorrect) {
-            return {
-              ...u,
-              stats: {
+          const stats = isCorrect
+            ? {
                 ...u.stats,
                 correct: u.stats.correct + 1,
                 points: u.stats.points + POINTS_PER_CORRECT,
-              },
-            }
-          }
-          return { ...u, stats: { ...u.stats, wrong: u.stats.wrong + 1 } }
+              }
+            : { ...u.stats, wrong: u.stats.wrong + 1 }
+          // Keep the most recent answers (avoids the shared file/cache growing forever).
+          const history = [...(u.history ?? []), entry].slice(-1000)
+          return { ...u, stats, history }
         }),
       }
     })
