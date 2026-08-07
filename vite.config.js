@@ -81,6 +81,7 @@ function mergeUsers(existing, incoming) {
 
 export default defineConfig({
   plugins: [react(), usersApiPlugin()],
+  base: '/math-games/',
   server: {
     // Listen on all network interfaces so phones/tablets on the same
     // Wi-Fi can open the app at http://<this-computer-ip>:5173/
