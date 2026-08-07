@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { shuffle } from './helpers'
+import { RoundDots } from './quiz'
 
 // Build a shuffled queue that cycles through every game type until we have
 // enough questions (each type appears once before any repeats).
@@ -30,13 +31,16 @@ function MixedGame({ settings, onFinish }) {
 
   const Game = current.component
   return (
-    <Game
-      key={index}
-      settings={current.settingsFor(settings.age)}
-      rounds={1}
-      onFinish={handleFinish}
-      gameName={current.title}
-    />
+    <>
+      <RoundDots round={index} total={total} />
+      <Game
+        key={index}
+        settings={current.settingsFor(settings.age)}
+        rounds={1}
+        onFinish={handleFinish}
+        gameName={current.title}
+      />
+    </>
   )
 }
 

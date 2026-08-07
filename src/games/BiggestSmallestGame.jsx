@@ -44,6 +44,7 @@ function BiggestSmallestGame({ settings, onFinish, rounds = 10, gameName = '' })
 
   return (
     <div className="game">
+      <RoundDots round={round} total={total} />
       <div className="question">
         Tap the{' '}
         <span className={q.findBiggest ? 'word-big' : 'word-small'}>
@@ -66,7 +67,6 @@ function BiggestSmallestGame({ settings, onFinish, rounds = 10, gameName = '' })
           </button>
         ))}
       </div>
-      <RoundDots round={round} total={total} />
     </div>
   )
 }

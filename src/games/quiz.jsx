@@ -1,4 +1,5 @@
 export function RoundDots({ round, total }) {
+  if (total < 2) return null
   return (
     <div className="round-dots" aria-hidden="true">
       {Array.from({ length: total }, (_, i) => (

@@ -27,6 +27,7 @@ function CountingGame({ settings, onFinish, rounds = 10, gameName = '' }) {
 
   return (
     <div className="game">
+      <RoundDots round={round} total={total} />
       <div className="question">
         How many <span className="question-emoji">{emoji}</span> can you see?
       </div>
@@ -70,7 +71,6 @@ function CountingGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <RoundDots round={round} total={total} />
       <Feedback feedback={feedback} correctAnswer={q.count} disabled={disabled} />
     </div>
   )

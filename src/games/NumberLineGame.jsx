@@ -29,6 +29,7 @@ function NumberLineGame({ settings, onFinish, rounds = 10, gameName = '' }) {
 
   return (
     <div className="game">
+      <RoundDots round={round} total={total} />
       <div className="question">
         Count along the line. What number is the arrow pointing at?
       </div>
@@ -69,7 +70,6 @@ function NumberLineGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <RoundDots round={round} total={total} />
       <Feedback feedback={feedback} correctAnswer={q.target} disabled={disabled} />
     </div>
   )

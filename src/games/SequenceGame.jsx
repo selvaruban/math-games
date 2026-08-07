@@ -42,6 +42,7 @@ function SequenceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
 
   return (
     <div className="game">
+      <RoundDots round={round} total={total} />
       <div className="question">Fill in the missing number!</div>
       <div className="sequence-row">
         {q.seq.map((n, i) =>
@@ -81,7 +82,6 @@ function SequenceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <RoundDots round={round} total={total} />
       <Feedback feedback={feedback} correctAnswer={q.answer} disabled={disabled} />
     </div>
   )

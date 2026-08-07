@@ -93,6 +93,7 @@ function WordProblemGame({ settings, onFinish, rounds = 10, gameName = '' }) {
 
   return (
     <div className="game">
+      <RoundDots round={round} total={total} />
       <div className="question story">{q.text}</div>
       {q.count <= 24 && (
         <div className="story-visual">
@@ -124,7 +125,6 @@ function WordProblemGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <RoundDots round={round} total={total} />
       <Feedback feedback={feedback} correctAnswer={q.answer} disabled={disabled} />
     </div>
   )

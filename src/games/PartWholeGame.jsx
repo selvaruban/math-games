@@ -72,6 +72,7 @@ function PartWholeGame({ settings, onFinish, rounds = 10, gameName = '' }) {
 
   return (
     <div className="game">
+      <RoundDots round={round} total={total} />
       <div className="question">
         Two parts make the whole. Find the missing number!
       </div>
@@ -102,7 +103,6 @@ function PartWholeGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <RoundDots round={round} total={total} />
       <Feedback feedback={feedback} correctAnswer={q.answer} disabled={disabled} />
     </div>
   )

@@ -21,6 +21,7 @@ function MultiplicationGame({ settings, onFinish, rounds = 10, gameName = '' }) 
 
   return (
     <div className="game">
+      <RoundDots round={round} total={total} />
       <div className="sum-row">
         <span className="op num">{q.a}</span>
         <span className="op">×</span>
@@ -53,7 +54,6 @@ function MultiplicationGame({ settings, onFinish, rounds = 10, gameName = '' }) 
           </button>
         ))}
       </div>
-      <RoundDots round={round} total={total} />
       <Feedback feedback={feedback} correctAnswer={q.product} disabled={disabled} />
     </div>
   )
