@@ -154,15 +154,22 @@ button {
   font-size: 1.5rem;
 }
 
-.modal-close {
-  background: #eee;
+.modal-close-bottom {
+  width: 100%;
+  margin-top: 14px;
+  background: var(--primary, #2d9cdb);
   border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--ink);
+  color: #fff;
+  border-radius: 999px;
+  padding: 12px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: filter 0.12s ease;
+}
+
+.modal-close-bottom:hover {
+  filter: brightness(1.08);
 }
 
 .emoji-picker {

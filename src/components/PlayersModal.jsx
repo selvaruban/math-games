@@ -51,11 +51,6 @@ function PlayersModal({ onClose, canClose }) {
           ) : (
             <h2>👥 Players</h2>
           )}
-          {!historyUser && canClose && (
-            <button type="button" className="modal-close" onClick={onClose} aria-label="Close">
-              ✕
-            </button>
-          )}
         </div>
 
         {historyUser ? (
@@ -157,6 +152,11 @@ function PlayersModal({ onClose, canClose }) {
               </form>
             )}
           </>
+        )}
+        {canClose && (
+          <button type="button" className="modal-close-bottom" onClick={onClose}>
+            Close
+          </button>
         )}
       </div>
     </div>
