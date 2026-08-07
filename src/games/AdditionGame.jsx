@@ -14,7 +14,11 @@ function randomQuestion(settings) {
     addends.push(x)
     remaining -= x
   }
-  return { addends, sum: addends.reduce((s, x) => s + x, 0) }
+  return {
+    addends,
+    sum: addends.reduce((s, x) => s + x, 0),
+    reversed: Math.random() < 0.3,
+  }
 }
 
 function AdditionGame({ settings, onFinish, rounds = 10, gameName = '' }) {
@@ -32,14 +36,24 @@ function AdditionGame({ settings, onFinish, rounds = 10, gameName = '' }) {
     <div className="game">
       <RoundDots round={round} total={total} />
       <div className="sum-row">
+        {q.reversed && (
+          <>
+            <span className="sum-answer">?</span>
+            <span className="op">=</span>
+          </>
+        )}
         {q.addends.map((x, i) => (
           <Fragment key={i}>
             <span className="op num">{x}</span>
             {i < q.addends.length - 1 && <span className="op">+</span>}
           </Fragment>
         ))}
-        <span className="op">=</span>
-        <span className="sum-answer">?</span>
+        {!q.reversed && (
+          <>
+            <span className="op">=</span>
+            <span className="sum-answer">?</span>
+          </>
+        )}
       </div>
       <div className="answer-row">
         {choices.map((c) => (
@@ -53,7 +67,7 @@ function AdditionGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                 {
                   isCorrect: c === q.sum,
                   game: gameName,
-                  question: `${q.addends.join(' + ')} = ?`,
+                  question: `${q.reversed ? '? = ' : ''}${q.addends.join(' + ')}`,
                   selected: c,
                   correctAnswer: q.sum,
                 },

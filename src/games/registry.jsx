@@ -8,6 +8,14 @@ import MultiplicationGame from './MultiplicationGame.jsx'
 import BiggestSmallestGame from './BiggestSmallestGame.jsx'
 import NumberLineGame from './NumberLineGame.jsx'
 import PartWholeGame from './PartWholeGame.jsx'
+import MoreLessGame from './MoreLessGame.jsx'
+import CompareGame from './CompareGame.jsx'
+import PatternsGame from './PatternsGame.jsx'
+import DiceGame from './DiceGame.jsx'
+import VolumeGame from './VolumeGame.jsx'
+import BlocksGame from './BlocksGame.jsx'
+import MatchWordsGame from './MatchWordsGame.jsx'
+import BalanceGame from './BalanceGame.jsx'
 
 // Game registry. To add a new game: create a component that receives
 // { settings, onFinish }, give it an id here, and a settingsFor(age) that
@@ -168,6 +176,120 @@ export const GAMES = {
       if (age === 6) return { maxWhole: 10 }
       if (age === 7) return { maxWhole: 20 }
       if (age === 8) return { maxWhole: 50 }
+      return null
+    },
+  },
+  moreless: {
+    id: 'moreless',
+    title: 'More or Less',
+    icon: '🪜',
+    color: '#f15bb5',
+    blurb: 'One more, one less — what comes next?',
+    component: MoreLessGame,
+    settingsFor(age) {
+      if (age === 6) return { minBase: 3, maxBase: 10, deltas: [1, 2] }
+      if (age === 7) return { minBase: 10, maxBase: 100, deltas: [1, 2, 10] }
+      if (age === 8) return { minBase: 10, maxBase: 200, deltas: [1, 2, 5, 10] }
+      return null
+    },
+  },
+  compare: {
+    id: 'compare',
+    title: 'Who Has More?',
+    icon: '🍎',
+    color: '#ef476f',
+    blurb: 'Two kids, two amounts — who has more?',
+    component: CompareGame,
+    settingsFor(age) {
+      if (age === 6) return { maxCount: 10 }
+      if (age === 7) return { maxCount: 20 }
+      if (age === 8) return { maxCount: 50 }
+      return null
+    },
+  },
+  patterns: {
+    id: 'patterns',
+    title: 'Guess the Pattern',
+    icon: '🔁',
+    color: '#8338ec',
+    blurb: 'What object comes next in the pattern?',
+    component: PatternsGame,
+    settingsFor(age) {
+      if (age === 6) return { symbols: ['🔵', '🔴', '🟢', '🟡'], cycleLengths: [2] }
+      if (age === 7)
+        return { symbols: ['🔵', '🔴', '🟢', '🟡', '🟣', '🟠', '⭐', '🎈'], cycleLengths: [2, 3] }
+      if (age === 8)
+        return { symbols: ['🔵', '🔴', '🟢', '🟡', '🟣', '🟠', '⭐', '🎈'], cycleLengths: [2, 3, 4] }
+      return null
+    },
+  },
+  dice: {
+    id: 'dice',
+    title: 'Dice Pairs',
+    icon: '🎲',
+    color: '#f8961e',
+    blurb: 'Tap the two dice that add up to the number!',
+    component: DiceGame,
+    settingsFor(age) {
+      if (age === 6) return { targets: [5, 6, 7, 8] }
+      if (age === 7) return { targets: [6, 7, 8, 9, 10] }
+      if (age === 8) return { targets: [7, 8, 9, 10, 11, 12] }
+      return null
+    },
+  },
+  volume: {
+    id: 'volume',
+    title: 'Full or Half',
+    icon: '🥛',
+    color: '#90be6d',
+    blurb: 'Which glass is full? Which is half full?',
+    component: VolumeGame,
+    settingsFor(age) {
+      if (age === 6) return { asks: ['full', 'half', 'empty'] }
+      if (age === 7) return { asks: ['full', 'half', 'empty', 'quarter', 'threequarter'] }
+      if (age === 8) return { asks: ['full', 'half', 'empty', 'quarter', 'threequarter'] }
+      return null
+    },
+  },
+  blocks: {
+    id: 'blocks',
+    title: 'Number Blocks',
+    icon: '🧱',
+    color: '#577590',
+    blurb: 'Tens and ones — what number is it?',
+    component: BlocksGame,
+    settingsFor(age) {
+      if (age === 6) return { maxTens: 3, maxOnes: 9 }
+      if (age === 7) return { maxTens: 9, maxOnes: 9 }
+      if (age === 8) return { maxTens: 9, maxOnes: 9 }
+      return null
+    },
+  },
+  matchwords: {
+    id: 'matchwords',
+    title: 'Number Words',
+    icon: '🔤',
+    color: '#00bbf9',
+    blurb: 'Match the word to the number and back!',
+    component: MatchWordsGame,
+    settingsFor(age) {
+      if (age === 6) return { maxNum: 10 }
+      if (age === 7) return { maxNum: 20 }
+      if (age === 8) return { maxNum: 99 }
+      return null
+    },
+  },
+  balance: {
+    id: 'balance',
+    title: 'Balance It',
+    icon: '⚖️',
+    color: '#d62828',
+    blurb: 'Make both sides of the equation equal!',
+    component: BalanceGame,
+    settingsFor(age) {
+      if (age === 6) return { max: 10 }
+      if (age === 7) return { max: 20 }
+      if (age === 8) return { max: 50 }
       return null
     },
   },
