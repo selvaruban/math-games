@@ -22,7 +22,8 @@ function GameShell({ level, game, onBack }) {
   return (
     <div className="screen">
       <button type="button" className="back-button" onClick={onBack}>
-        ← {level.title}
+        <span aria-hidden="true">←</span>
+        <span>{level.title}</span>
       </button>
       <header className="screen-header">
         <h1>

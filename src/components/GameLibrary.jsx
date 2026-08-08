@@ -9,7 +9,8 @@ function GameLibrary({ level, onBack, onPick }) {
   return (
     <div className="screen">
       <button type="button" className="back-button" onClick={onBack}>
-        ← Back
+        <span aria-hidden="true">←</span>
+        <span>Back</span>
       </button>
       <header className="screen-header">
         <h1>

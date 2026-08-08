@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LEVELS } from './levels'
 import { GAMES } from './games/registry'
 import { useUser } from './userContext'
@@ -15,6 +15,10 @@ function App() {
   const [playersOpen, setPlayersOpen] = useState(false)
 
   const showPlayers = playersOpen || (ready && users.length === 0)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [view])
 
   let content
   if (view.name === 'level') {

@@ -611,6 +611,10 @@ button {
 }
 
 .back-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   align-self: flex-start;
   background: var(--card);
   border: none;
@@ -618,6 +622,7 @@ button {
   padding: 10px 18px;
   font-size: 1.1rem;
   font-weight: 700;
+  line-height: 1;
   color: var(--ink);
   box-shadow: var(--shadow);
 }
