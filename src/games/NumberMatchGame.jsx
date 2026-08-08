@@ -61,12 +61,11 @@ function NumberMatchGame({ settings, onFinish, rounds = 10, gameName = '' }) {
 }
 
 function makeGroups(n, settings) {
-  const sizes = uniqueChoices(
+  return uniqueChoices(
     n,
-    () => Math.max(1, n + randInt(-2, 2)),
+    () => randInt(Math.max(1, settings.min), settings.max),
     3,
   )
-  return sizes.filter((s) => s >= Math.max(1, settings.min) && s <= settings.max)
 }
 
 export default NumberMatchGame

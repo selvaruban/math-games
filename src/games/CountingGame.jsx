@@ -79,9 +79,9 @@ function CountingGame({ settings, onFinish, rounds = 10, gameName = '' }) {
 function makeChoices(n, settings) {
   return uniqueChoices(
     n,
-    () => n + randInt(-3, 3),
+    () => randInt(Math.max(1, settings.min), settings.max + 1),
     3,
-  ).filter((c) => c >= Math.max(1, settings.min) && c <= settings.max + 1)
+  )
 }
 
 export default CountingGame
