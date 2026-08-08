@@ -220,14 +220,44 @@ export const GAMES = {
     title: 'Guess the Pattern',
     icon: '🔁',
     color: '#8338ec',
-    blurb: 'What object comes next in the pattern?',
+    blurb: 'What shape and colour comes next?',
     component: PatternsGame,
     settingsFor(age) {
-      if (age === 6) return { symbols: ['🔵', '🔴', '🟢', '🟡'], cycleLengths: [2] }
+      if (age === 6)
+        return {
+          shapes: ['circle', 'square', 'triangle'],
+          colors: [
+            { name: 'red', value: '#e63946' },
+            { name: 'blue', value: '#3a86ff' },
+            { name: 'green', value: '#2a9d8f' },
+          ],
+          cycleLengths: [2],
+        }
       if (age === 7)
-        return { symbols: ['🔵', '🔴', '🟢', '🟡', '🟣', '🟠', '⭐', '🎈'], cycleLengths: [2, 3] }
+        return {
+          shapes: ['circle', 'square', 'triangle', 'star', 'diamond'],
+          colors: [
+            { name: 'red', value: '#e63946' },
+            { name: 'blue', value: '#3a86ff' },
+            { name: 'green', value: '#2a9d8f' },
+            { name: 'yellow', value: '#f4a261' },
+            { name: 'purple', value: '#8338ec' },
+          ],
+          cycleLengths: [2, 3],
+        }
       if (age === 8)
-        return { symbols: ['🔵', '🔴', '🟢', '🟡', '🟣', '🟠', '⭐', '🎈'], cycleLengths: [2, 3, 4] }
+        return {
+          shapes: SHAPE_KINDS,
+          colors: [
+            { name: 'red', value: '#e63946' },
+            { name: 'blue', value: '#3a86ff' },
+            { name: 'green', value: '#2a9d8f' },
+            { name: 'yellow', value: '#f4a261' },
+            { name: 'purple', value: '#8338ec' },
+            { name: 'orange', value: '#fb8500' },
+          ],
+          cycleLengths: [2, 3, 4],
+        }
       return null
     },
   },

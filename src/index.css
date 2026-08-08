@@ -1455,7 +1455,7 @@ button {
   }
 
   .pattern-item {
-    font-size: 1.9rem;
+    transform: scale(0.8);
   }
 
   .dice-btn {
@@ -1520,7 +1520,9 @@ button {
 }
 
 .pattern-item {
-  font-size: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1;
 }
 
