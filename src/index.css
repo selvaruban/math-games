@@ -131,9 +131,19 @@ button {
   padding: 20px;
   width: min(480px, calc(100vw - 32px));
   max-height: 82vh;
-  overflow-y: auto;
-  scroll-padding-block: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   animation: pop 0.3s ease;
+}
+
+.modal-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  margin: 0 -20px;
+  padding: 2px 20px 8px;
+  scroll-padding-block: 12px;
 }
 
 .modal-head {
@@ -156,7 +166,6 @@ button {
 
 .modal-close-bottom {
   width: 100%;
-  margin-top: 14px;
   background: var(--primary, #2d9cdb);
   border: none;
   color: #fff;
@@ -170,6 +179,13 @@ button {
 
 .modal-close-bottom:hover {
   filter: brightness(1.08);
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 14px;
 }
 
 .emoji-picker {
@@ -432,8 +448,6 @@ button {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: 54vh;
-  overflow-y: auto;
 }
 
 .history-row {
@@ -503,7 +517,6 @@ button {
 
 .history-back-bottom {
   width: 100%;
-  margin-top: 12px;
   background: #fff;
   border: 2px solid #06d6a0;
   color: #06d6a0;

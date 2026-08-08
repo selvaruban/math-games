@@ -53,111 +53,120 @@ function PlayersModal({ onClose, canClose }) {
           )}
         </div>
 
-        {historyUser ? (
-          <HistoryView user={historyUser} onBack={() => setHistoryUser(null)} />
-        ) : editUser ? (
-          <EditView
-            user={editUser}
-            onBack={() => setEditUser(null)}
-            renameUser={renameUser}
-            clearStats={clearStats}
-            deleteUser={deleteUser}
-          />
-        ) : (
-          <>
-            {users.length > 0 ? (
-              <ul className="user-list">
-                {users.map((u) => {
-                  const active = u.id === activeUser?.id
-                  return (
-                    <li
-                      key={u.id}
-                      className={`user-row ${active ? 'active' : ''}`}
-                      onClick={() => selectUser(u.id)}
-                    >
-                      <span className="user-emoji">{u.emoji}</span>
-                      <div className="user-info">
-                        <span className="user-name">
-                          {u.name}
-                          {active && <span className="active-badge">Active</span>}
-                        </span>
-                        <span className="user-stats">
-                          ⭐ {u.stats.points} · ✓ {u.stats.correct} · ✗ {u.stats.wrong}
-                        </span>
-                      </div>
-                      <div className="mini-actions" onClick={(e) => e.stopPropagation()}>
-                        <button
-                          type="button"
-                          className="mini-btn"
-                          title="Answer history"
-                          aria-label="Answer history"
-                          onClick={() => setHistoryUser(u)}
-                        >
-                          📊
-                        </button>
-                        <button
-                          type="button"
-                          className="mini-btn"
-                          title="Edit player"
-                          aria-label="Edit player"
-                          onClick={() => setEditUser(u)}
-                        >
-                          ✎
-                        </button>
-                      </div>
-                    </li>
-                  )
-                })}
-              </ul>
-            ) : (
-              <p className="empty-players">No players yet. Add your first one below!</p>
-            )}
+        <div className="modal-body">
+          {historyUser ? (
+            <HistoryView user={historyUser} />
+          ) : editUser ? (
+            <EditView
+              user={editUser}
+              onBack={() => setEditUser(null)}
+              renameUser={renameUser}
+              clearStats={clearStats}
+              deleteUser={deleteUser}
+            />
+          ) : (
+            <>
+              {users.length > 0 ? (
+                <ul className="user-list">
+                  {users.map((u) => {
+                    const active = u.id === activeUser?.id
+                    return (
+                      <li
+                        key={u.id}
+                        className={`user-row ${active ? 'active' : ''}`}
+                        onClick={() => selectUser(u.id)}
+                      >
+                        <span className="user-emoji">{u.emoji}</span>
+                        <div className="user-info">
+                          <span className="user-name">
+                            {u.name}
+                            {active && <span className="active-badge">Active</span>}
+                          </span>
+                          <span className="user-stats">
+                            ⭐ {u.stats.points} · ✓ {u.stats.correct} · ✗ {u.stats.wrong}
+                          </span>
+                        </div>
+                        <div className="mini-actions" onClick={(e) => e.stopPropagation()}>
+                          <button
+                            type="button"
+                            className="mini-btn"
+                            title="Answer history"
+                            aria-label="Answer history"
+                            onClick={() => setHistoryUser(u)}
+                          >
+                            📊
+                          </button>
+                          <button
+                            type="button"
+                            className="mini-btn"
+                            title="Edit player"
+                            aria-label="Edit player"
+                            onClick={() => setEditUser(u)}
+                          >
+                            ✎
+                          </button>
+                        </div>
+                      </li>
+                    )
+                  })}
+                </ul>
+              ) : (
+                <p className="empty-players">No players yet. Add your first one below!</p>
+              )}
 
-            {!showForm ? (
-              <button type="button" className="add-player-toggle" onClick={() => setShowForm(true)}>
-                ＋ Add New Player
-              </button>
-            ) : (
-              <form className="add-player" onSubmit={handleAdd}>
-                <input
-                  type="text"
-                  value={name}
-                  maxLength={12}
-                  placeholder="Player's name"
-                  onChange={(e) => setName(e.target.value)}
-                  autoFocus
-                />
-                <div className="emoji-picker">
-                  {EMOJIS.map((e) => (
-                    <button
-                      key={e}
-                      type="button"
-                      className={`emoji-opt ${e === emoji ? 'selected' : ''}`}
-                      onClick={() => setEmoji(e)}
-                    >
-                      {e}
+              {!showForm ? (
+                <button type="button" className="add-player-toggle" onClick={() => setShowForm(true)}>
+                  ＋ Add New Player
+                </button>
+              ) : (
+                <form className="add-player" onSubmit={handleAdd}>
+                  <input
+                    type="text"
+                    value={name}
+                    maxLength={12}
+                    placeholder="Player's name"
+                    onChange={(e) => setName(e.target.value)}
+                    autoFocus
+                  />
+                  <div className="emoji-picker">
+                    {EMOJIS.map((e) => (
+                      <button
+                        key={e}
+                        type="button"
+                        className={`emoji-opt ${e === emoji ? 'selected' : ''}`}
+                        onClick={() => setEmoji(e)}
+                      >
+                        {e}
+                      </button>
+                    ))}
+                  </div>
+                  <div className="form-actions">
+                    <button type="submit" className="add-submit" disabled={!name.trim()}>
+                      Add player
                     </button>
-                  ))}
-                </div>
-                <div className="form-actions">
-                  <button type="submit" className="add-submit" disabled={!name.trim()}>
-                    Add player
-                  </button>
-                  {users.length > 0 && (
-                    <button type="button" className="add-cancel" onClick={() => setShowForm(false)}>
-                      Cancel
-                    </button>
-                  )}
-                </div>
-              </form>
-            )}
-          </>
-        )}
-        {canClose && (
-          <button type="button" className="modal-close-bottom" onClick={onClose}>
-            Close
-          </button>
-        )}
+                    {users.length > 0 && (
+                      <button type="button" className="add-cancel" onClick={() => setShowForm(false)}>
+                        Cancel
+                      </button>
+                    )}
+                  </div>
+                </form>
+              )}
+            </>
+          )}
+        </div>
+        <div className="modal-actions">
+          {historyUser && (
+            <button type="button" className="history-back-bottom" onClick={() => setHistoryUser(null)}>
+              ← Back to Players
+            </button>
+          )}
+          {canClose && (
+            <button type="button" className="modal-close-bottom" onClick={onClose}>
+              Close
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )
@@ -233,7 +242,7 @@ function EditView({ user, onBack, renameUser, clearStats, deleteUser }) {
   )
 }
 
-function HistoryView({ user, onBack }) {
+function HistoryView({ user }) {
   const history = user.history ?? []
   const right = history.filter((h) => h.isCorrect).length
   const wrong = history.length - right
@@ -263,9 +272,6 @@ function HistoryView({ user, onBack }) {
       ) : (
         <p className="empty-players">No answers recorded yet. Go play a game!</p>
       )}
-      <button type="button" className="history-back-bottom" onClick={onBack}>
-        ← Back to Players
-      </button>
     </>
   )
 }
