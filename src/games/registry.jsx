@@ -16,6 +16,14 @@ import VolumeGame from './VolumeGame.jsx'
 import BlocksGame from './BlocksGame.jsx'
 import MatchWordsGame from './MatchWordsGame.jsx'
 import BalanceGame from './BalanceGame.jsx'
+import ShapesGame from './ShapesGame.jsx'
+import ClockGame from './ClockGame.jsx'
+import LongShortGame from './LongShortGame.jsx'
+import HalfShadedGame from './HalfShadedGame.jsx'
+import PacksGame from './PacksGame.jsx'
+import TurnsGame from './TurnsGame.jsx'
+import FractionsGame from './FractionsGame.jsx'
+import { SHAPE_KINDS } from './shapeMeta.js'
 
 // Game registry. To add a new game: create a component that receives
 // { settings, onFinish }, give it an id here, and a settingsFor(age) that
@@ -284,12 +292,110 @@ export const GAMES = {
     title: 'Balance It',
     icon: '⚖️',
     color: '#d62828',
-    blurb: 'Make both sides of the equation equal!',
+    blurb: 'Make both sides equal — find the missing number!',
     component: BalanceGame,
     settingsFor(age) {
       if (age === 6) return { max: 10 }
       if (age === 7) return { max: 20 }
       if (age === 8) return { max: 50 }
+      return null
+    },
+  },
+  shapes: {
+    id: 'shapes',
+    title: 'Find the Shape',
+    icon: '🔷',
+    color: '#3a86ff',
+    blurb: 'Can you spot the shape?',
+    component: ShapesGame,
+    settingsFor(age) {
+      if (age === 6) return { kinds: ['circle', 'square', 'triangle', 'star', 'heart'] }
+      if (age === 7) return { kinds: ['circle', 'square', 'triangle', 'star', 'heart', 'diamond', 'oval'] }
+      if (age === 8) return { kinds: SHAPE_KINDS }
+      return null
+    },
+  },
+  clock: {
+    id: 'clock',
+    title: 'Tell the Time',
+    icon: '🕐',
+    color: '#6d597a',
+    blurb: 'Read the clock and pick the right time!',
+    component: ClockGame,
+    settingsFor(age) {
+      if (age === 6) return { minutes: [0, 15, 30, 45] }
+      if (age === 7) return { minutes: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] }
+      if (age === 8) return { minutes: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] }
+      return null
+    },
+  },
+  longshort: {
+    id: 'longshort',
+    title: 'Longest or Shortest',
+    icon: '✏️',
+    color: '#bc6c25',
+    blurb: 'Find the longest pencil, or the shortest!',
+    component: LongShortGame,
+    settingsFor(age) {
+      if (age === 6) return { count: 3, maxLen: 8, step: 2 }
+      if (age === 7) return { count: 4, maxLen: 10, step: 2 }
+      if (age === 8) return { count: 5, maxLen: 12, step: 2 }
+      return null
+    },
+  },
+  halfshaded: {
+    id: 'halfshaded',
+    title: 'Half Shaded',
+    icon: '🟩',
+    color: '#2d6a4f',
+    blurb: 'Which shape is exactly half shaded?',
+    component: HalfShadedGame,
+    settingsFor(age) {
+      if (age === 6) return { kinds: ['square', 'circle', 'triangle'] }
+      if (age === 7) return { kinds: ['square', 'circle', 'triangle', 'diamond', 'hexagon'] }
+      if (age === 8) return { kinds: SHAPE_KINDS }
+      return null
+    },
+  },
+  packs: {
+    id: 'packs',
+    title: 'Packs of Ten',
+    icon: '🎈',
+    color: '#ff7b54',
+    blurb: 'Count the packs of ten!',
+    component: PacksGame,
+    settingsFor(age) {
+      if (age === 6) return { maxPacks: 3 }
+      if (age === 7) return { maxPacks: 5 }
+      if (age === 8) return { maxPacks: 9 }
+      return null
+    },
+  },
+  turns: {
+    id: 'turns',
+    title: 'Shape Turns',
+    icon: '🔄',
+    color: '#7b2cbf',
+    blurb: 'Was it a half turn or a quarter turn?',
+    component: TurnsGame,
+    settingsFor(age) {
+      if (age === 6) return { turns: ['quarter', 'half'] }
+      if (age === 7) return { turns: ['quarter', 'half'] }
+      if (age === 8) return { turns: ['quarter', 'half', 'threequarter'] }
+      return null
+    },
+  },
+  fractions: {
+    id: 'fractions',
+    title: 'Sweets Fractions',
+    icon: '🍬',
+    color: '#d00000',
+    blurb: 'What is one quarter of the sweets?',
+    component: FractionsGame,
+    settingsFor(age) {
+      if (age === 6) return { denoms: [2, 4], maxK: 4 }
+      if (age === 7) return { denoms: [2, 3, 4, 5], maxK: 4 }
+      if (age === 8) return { denoms: [2, 3, 4, 5, 6], maxK: 4 }
       return null
     },
   },
