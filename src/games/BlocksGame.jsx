@@ -5,9 +5,11 @@ import { RoundDots, Feedback } from './quiz'
 
 function makeQuestion(settings) {
   const tens = randInt(1, settings.maxTens)
-  const ones = randInt(0, settings.maxOnes)
-  const answer = tens * 10 + ones
-  return { tens, ones, answer, choices: makeChoices(answer) }
+  const fives = randInt(0, settings.maxFives)
+  let ones = randInt(0, 4)
+  if (tens === 0 && fives === 0 && ones === 0) ones = 1
+  const answer = tens * 10 + fives * 5 + ones
+  return { tens, fives, ones, answer, choices: makeChoices(answer) }
 }
 
 function BlocksGame({ settings, onFinish, rounds = 10, gameName = '' }) {
@@ -23,21 +25,28 @@ function BlocksGame({ settings, onFinish, rounds = 10, gameName = '' }) {
       <RoundDots round={round} total={total} />
       <div className="question">
         These blocks make what number?
-        <div className="blocks-hint">Each long block is 10.</div>
+        <div className="blocks-hint">Tall blocks are 10, medium blocks are 5, small blocks are 1.</div>
       </div>
       <div className="blocks-area">
         {Array.from({ length: q.tens }, (_, i) => (
-          <div key={i} className="rod">
+          <div key={`t${i}`} className="block-col tens">
             {Array.from({ length: 10 }, (_, j) => (
-              <span key={j} className="rod-cell" />
+              <span key={j} className="block-cell" />
             ))}
           </div>
         ))}
-        <div className="units">
-          {Array.from({ length: q.ones }, (_, i) => (
-            <span key={i} className="unit-cell" />
-          ))}
-        </div>
+        {Array.from({ length: q.fives }, (_, i) => (
+          <div key={`f${i}`} className="block-col fives">
+            {Array.from({ length: 5 }, (_, j) => (
+              <span key={j} className="block-cell" />
+            ))}
+          </div>
+        ))}
+        {Array.from({ length: q.ones }, (_, i) => (
+          <div key={`o${i}`} className="block-col ones">
+            <span className="block-cell" />
+          </div>
+        ))}
       </div>
       <div className="answer-row">
         {q.choices.map((c) => (
@@ -51,7 +60,7 @@ function BlocksGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                 {
                   isCorrect: c === q.answer,
                   game: gameName,
-                  question: `${q.tens} tens and ${q.ones} ones`,
+                  question: `${q.tens} tens, ${q.fives} fives and ${q.ones} ones`,
                   selected: c,
                   correctAnswer: q.answer,
                 },

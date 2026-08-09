@@ -1635,37 +1635,39 @@ button {
 
 .blocks-area {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.rod {
-  display: flex;
-  gap: 2px;
-}
-
-.rod-cell {
-  width: 20px;
-  height: 20px;
-  background: #f8961e;
-  border: 1px solid #d97e14;
-  border-radius: 3px;
-}
-
-.units {
-  display: flex;
   flex-wrap: wrap;
+  align-items: flex-end;
   justify-content: center;
-  gap: 4px;
-  max-width: 300px;
+  gap: 8px;
+  max-width: 340px;
+  margin: 0 auto;
 }
 
-.unit-cell {
-  width: 18px;
-  height: 18px;
+.block-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.block-col.tens .block-cell {
+  background: #f8961e;
+  border-color: #d97e14;
+}
+
+.block-col.fives .block-cell {
+  background: #e76f51;
+  border-color: #c0553b;
+}
+
+.block-col.ones .block-cell {
   background: #43aa8b;
-  border: 1px solid #2d7a63;
+  border-color: #2d7a63;
+}
+
+.block-cell {
+  width: 22px;
+  height: 22px;
+  border: 1px solid;
   border-radius: 3px;
 }
 

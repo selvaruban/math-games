@@ -294,12 +294,12 @@ export const GAMES = {
     title: 'Number Blocks',
     icon: '🧱',
     color: '#577590',
-    blurb: 'Tens and ones — what number is it?',
+    blurb: 'Tens, fives and ones — what number is it?',
     component: BlocksGame,
     settingsFor(age) {
-      if (age === 6) return { maxTens: 3, maxOnes: 9 }
-      if (age === 7) return { maxTens: 9, maxOnes: 9 }
-      if (age === 8) return { maxTens: 9, maxOnes: 9 }
+      if (age === 6) return { maxTens: 2, maxFives: 1 }
+      if (age === 7) return { maxTens: 4, maxFives: 1 }
+      if (age === 8) return { maxTens: 7, maxFives: 2 }
       return null
     },
   },
