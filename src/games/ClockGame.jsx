@@ -3,9 +3,21 @@ import { randInt, shuffle } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
-function format(t) {
+function key(t) {
+  return `${t.hour}:${t.minute}`
+}
+
+function wordTime(t) {
   const h = t.hour % 12 === 0 ? 12 : t.hour % 12
-  return `${h}:${String(t.minute).padStart(2, '0')}`
+  if (t.minute === 0) return `${h} o'clock`
+  if (t.minute <= 30) {
+    const past = t.minute === 15 ? 'quarter' : t.minute === 30 ? 'half' : t.minute
+    return `${past} past ${h}`
+  }
+  const to = 60 - t.minute
+  const next = h === 12 ? 1 : h + 1
+  const part = to === 15 ? 'quarter' : to
+  return `${part} to ${next}`
 }
 
 function distractTime(hour, minute, minutes) {
@@ -36,21 +48,21 @@ function makeQuestion(settings) {
     const list = []
     while (list.length < 3) {
       const t = list.length === 0 ? time : distractTime(hour, minute, minutes)
-      const key = format(t)
-      if (!seen.has(key)) {
-        seen.add(key)
+      const k = key(t)
+      if (!seen.has(k)) {
+        seen.add(k)
         list.push(t)
       }
     }
     return { mode: 'read', time, choices: shuffle(list) }
   }
-  const seen = new Set([format(time)])
+  const seen = new Set([key(time)])
   const clocks = [time]
   while (clocks.length < 3) {
     const d = distractTime(hour, minute, minutes)
-    const key = format(d)
-    if (!seen.has(key)) {
-      seen.add(key)
+    const k = key(d)
+    if (!seen.has(k)) {
+      seen.add(k)
       clocks.push(d)
     }
   }
@@ -120,29 +132,29 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
         <div className="answer-row">
           {q.choices.map((c) => (
             <button
-              key={format(c)}
+              key={key(c)}
               type="button"
               className="answer-button time-answer"
               disabled={disabled}
               onClick={() =>
                 answer(
                   {
-                    isCorrect: format(c) === format(q.time),
+                    isCorrect: key(c) === key(q.time),
                     game: gameName,
                     question: 'What time is it?',
-                    selected: format(c),
-                    correctAnswer: format(q.time),
+                    selected: wordTime(c),
+                    correctAnswer: wordTime(q.time),
                   },
                   1000,
                   nextQuestion,
                 )
               }
             >
-              {format(c)}
+              {wordTime(c)}
             </button>
           ))}
         </div>
-        <Feedback feedback={feedback} correctAnswer={format(q.time)} disabled={disabled} />
+        <Feedback feedback={feedback} correctAnswer={wordTime(q.time)} disabled={disabled} />
       </div>
     )
   }
@@ -150,7 +162,7 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   return (
     <div className="game">
       <RoundDots round={round} total={total} />
-      <div className="question">Which clock shows {format(q.time)}?</div>
+      <div className="question">Which clock shows {wordTime(q.time)}?</div>
       <div className="shape-row">
         {q.clocks.map((t, i) => (
           <button
@@ -161,11 +173,11 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
             onClick={() =>
               answer(
                 {
-                  isCorrect: format(t) === format(q.time),
+                  isCorrect: key(t) === key(q.time),
                   game: gameName,
-                  question: `Which clock shows ${format(q.time)}?`,
-                  selected: `clock ${i + 1} (${format(t)})`,
-                  correctAnswer: format(q.time),
+                  question: `Which clock shows ${wordTime(q.time)}?`,
+                  selected: `clock ${i + 1} (${wordTime(t)})`,
+                  correctAnswer: wordTime(q.time),
                 },
                 1000,
                 nextQuestion,
@@ -176,7 +188,7 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={format(q.time)} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={wordTime(q.time)} disabled={disabled} />
     </div>
   )
 }
