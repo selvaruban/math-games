@@ -3,6 +3,7 @@ import { LEVELS } from './levels'
 import { GAMES } from './games/registry'
 import { useUser } from './userContext'
 import { MIXED_META } from './games/mixedMeta'
+import { SMART_META } from './games/smartMeta'
 import Home from './components/Home'
 import GameLibrary from './components/GameLibrary'
 import GameShell from './components/GameShell'
@@ -10,7 +11,7 @@ import PlayerBar from './components/PlayerBar'
 import PlayersModal from './components/PlayersModal'
 
 function App() {
-  const { users, ready } = useUser()
+  const { users, ready, activeUser } = useUser()
   const [view, setView] = useState({ name: 'home' })
   const [playersOpen, setPlayersOpen] = useState(false)
 
@@ -40,8 +41,20 @@ function App() {
         onBack={() => setView({ name: 'level', age: level.age })}
       />
     )
+  } else if (view.name === 'smart') {
+    const age = view.age ?? activeUser?.age ?? 6
+    const level = { age, title: 'Smart Challenge', emoji: '🚀' }
+    content = (
+      <GameShell level={level} game={SMART_META} onBack={() => setView({ name: 'home' })} />
+    )
   } else {
-    content = <Home levels={LEVELS} onPick={(age) => setView({ name: 'level', age })} />
+    content = (
+      <Home
+        levels={LEVELS}
+        onPick={(age) => setView({ name: 'level', age })}
+        onPickSmart={() => setView({ name: 'smart', age: activeUser?.age ?? 6 })}
+      />
+    )
   }
 
   return (

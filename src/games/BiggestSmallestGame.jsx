@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { randInt, answerState } from './helpers'
 import { useGame } from './useGame'
-import { RoundDots } from './quiz'
+import { RoundDots, Feedback } from './quiz'
 
 function makeQuestion(settings) {
   const nums = new Set()
@@ -18,7 +18,7 @@ function makeQuestion(settings) {
 
 function BiggestSmallestGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
-  const { round, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
 
   function pick(card) {
     if (disabled) return
@@ -58,6 +58,12 @@ function BiggestSmallestGame({ settings, onFinish, rounds = 10, gameName = '' })
           </button>
         ))}
       </div>
+      <Feedback
+        feedback={feedback}
+        correctAnswer={q.target}
+        disabled={disabled}
+        onNext={next}
+      />
     </div>
   )
 }

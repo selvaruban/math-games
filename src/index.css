@@ -743,6 +743,119 @@ button {
   box-shadow: 0 6px 0 #04a97c;
 }
 
+/* Smart Challenge card (special mode under the age cards) */
+.smart-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 20px;
+  background: linear-gradient(135deg, #fff4e0, #ffe8d1);
+  border: 6px solid #e76f51;
+  border-radius: 28px;
+  padding: 26px 20px;
+  font-size: 1rem;
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease;
+}
+
+.smart-card:hover {
+  transform: translateY(-4px);
+}
+
+.smart-card .age-cta {
+  background: #e76f51;
+  box-shadow: 0 4px 0 #c4553a;
+}
+
+.smart-card:hover .age-cta {
+  box-shadow: 0 6px 0 #c4553a;
+}
+
+/* Smart Challenge — tier chips */
+.tier-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.tier-chip {
+  background: #e76f51;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  border-radius: 999px;
+  padding: 6px 16px;
+  box-shadow: 0 3px 0 #c4553a;
+}
+
+.tier-level {
+  color: #8a6f5e;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.streak-chip {
+  background: #ffd166;
+  color: #7a5400;
+  font-weight: 800;
+  font-size: 0.9rem;
+  border-radius: 999px;
+  padding: 5px 14px;
+  box-shadow: 0 3px 0 #e0a82e;
+}
+
+/* Player age picker */
+.age-picker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.age-picker-label {
+  font-weight: 700;
+  color: #7a6a80;
+}
+
+.age-options {
+  display: flex;
+  gap: 8px;
+}
+
+.age-opt {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 3px solid #d9c9a3;
+  background: #fff;
+  color: #6b5b3e;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.1s ease;
+}
+
+.age-opt.selected {
+  background: #e76f51;
+  border-color: #e76f51;
+  color: #fff;
+  transform: scale(1.08);
+}
+
+.user-age {
+  font-size: 0.8rem;
+  color: #b08968;
+  font-weight: 700;
+}
+
 /* Game library cards */
 .game-grid {
   display: grid;

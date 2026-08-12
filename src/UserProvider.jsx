@@ -68,12 +68,13 @@ export function UserProvider({ children }) {
 
   const activeUser = data.users.find((u) => u.id === data.activeId) || null
 
-  const addUser = useCallback((name, emoji) => {
+  const addUser = useCallback((name, emoji, age) => {
     setData((d) => {
       const user = {
         id: makeId(),
         name,
         emoji,
+        age: age || 6,
         stats: { correct: 0, wrong: 0, points: 0 },
         history: [],
       }
@@ -113,6 +114,13 @@ export function UserProvider({ children }) {
     setData((d) => ({
       ...d,
       users: d.users.map((u) => (u.id === id ? { ...u, name } : u)),
+    }))
+  }, [])
+
+  const updateAge = useCallback((id, age) => {
+    setData((d) => ({
+      ...d,
+      users: d.users.map((u) => (u.id === id ? { ...u, age } : u)),
     }))
   }, [])
 
@@ -157,6 +165,7 @@ export function UserProvider({ children }) {
     deleteUser,
     clearStats,
     renameUser,
+    updateAge,
     recordAnswer,
   }
 

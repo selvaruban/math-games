@@ -2,6 +2,27 @@ import { useState } from 'react'
 import { useUser } from '../userContext'
 
 const EMOJIS = ['🦁', '🐼', '🦄', '🐸', '🐧', '🐨', '🦊', '🐯', '🐰', '🐵', '🐶', '🐱', '🐢', '🦋']
+const AGE_OPTIONS = [6, 7, 8]
+
+function AgePicker({ value, onChange }) {
+  return (
+    <div className="age-picker">
+      <span className="age-picker-label">Age</span>
+      <div className="age-options">
+        {AGE_OPTIONS.map((a) => (
+          <button
+            key={a}
+            type="button"
+            className={`age-opt ${a === value ? 'selected' : ''}`}
+            onClick={() => onChange(a)}
+          >
+            {a}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 function formatTime(ts) {
   const d = new Date(ts)
@@ -14,10 +35,11 @@ function formatTime(ts) {
 }
 
 function PlayersModal({ onClose, canClose }) {
-  const { users, activeUser, addUser, selectUser, deleteUser, clearStats, renameUser } = useUser()
+  const { users, activeUser, addUser, selectUser, deleteUser, clearStats, renameUser, updateAge } = useUser()
   const [showForm, setShowForm] = useState(users.length === 0)
   const [name, setName] = useState('')
   const [emoji, setEmoji] = useState(EMOJIS[0])
+  const [age, setAge] = useState(6)
   const [historyUser, setHistoryUser] = useState(null)
   const [editUser, setEditUser] = useState(null)
 
@@ -25,7 +47,7 @@ function PlayersModal({ onClose, canClose }) {
     e.preventDefault()
     const trimmed = name.trim()
     if (!trimmed) return
-    addUser(trimmed, emoji)
+    addUser(trimmed, emoji, age)
     setName('')
     setShowForm(false)
   }
@@ -61,6 +83,7 @@ function PlayersModal({ onClose, canClose }) {
               user={editUser}
               onBack={() => setEditUser(null)}
               renameUser={renameUser}
+              updateAge={updateAge}
               clearStats={clearStats}
               deleteUser={deleteUser}
             />
@@ -85,6 +108,7 @@ function PlayersModal({ onClose, canClose }) {
                           <span className="user-stats">
                             ⭐ {u.stats.points} · ✓ {u.stats.correct} · ✗ {u.stats.wrong}
                           </span>
+                          <span className="user-age">Age {u.age ?? 6}</span>
                         </div>
                         <div className="mini-actions" onClick={(e) => e.stopPropagation()}>
                           <button
@@ -140,6 +164,7 @@ function PlayersModal({ onClose, canClose }) {
                       </button>
                     ))}
                   </div>
+                  <AgePicker value={age} onChange={setAge} />
                   <div className="form-actions">
                     <button type="submit" className="add-submit" disabled={!name.trim()}>
                       Add player
@@ -172,7 +197,7 @@ function PlayersModal({ onClose, canClose }) {
   )
 }
 
-function EditView({ user, onBack, renameUser, clearStats, deleteUser }) {
+function EditView({ user, onBack, renameUser, updateAge, clearStats, deleteUser }) {
   const [editName, setEditName] = useState(user.name)
 
   function saveName() {
@@ -211,6 +236,9 @@ function EditView({ user, onBack, renameUser, clearStats, deleteUser }) {
       <button type="button" className="edit-save" onClick={saveName} disabled={!editName.trim()}>
         ✓ Save name
       </button>
+
+      <label className="edit-label">Age</label>
+      <AgePicker value={user.age ?? 6} onChange={(a) => updateAge(user.id, a)} />
 
       <div className="edit-danger">
         <button

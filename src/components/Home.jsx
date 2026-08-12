@@ -12,7 +12,7 @@ const DOODLES = [
   { char: '○', top: '34%', left: '94%', size: 30, color: '#ffd166', delay: '1.8s' },
 ]
 
-function Home({ levels, onPick }) {
+function Home({ levels, onPick, onPickSmart }) {
   return (
     <div className="screen">
       <div className="bg-doodles" aria-hidden="true">
@@ -60,6 +60,12 @@ function Home({ levels, onPick }) {
           )
         })}
       </div>
+      <button type="button" className="smart-card" onClick={onPickSmart}>
+        <span className="age-emoji">🚀</span>
+        <span className="age-title">Smart Challenge</span>
+        <span className="age-blurb">Questions that grow with you!</span>
+        <span className="age-cta">▶ Level Up!</span>
+      </button>
     </div>
   )
 }
