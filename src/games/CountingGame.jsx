@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, uniqueChoices, randomEmoji } from './helpers'
+import { randInt, uniqueChoices, randomEmoji, answerState } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -12,7 +12,7 @@ function CountingGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
   const [emoji, setEmoji] = useState(randomEmoji)
   const [marked, setMarked] = useState([])
-  const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
 
   function nextQuestion() {
     setQ(makeQuestion(settings))
@@ -51,7 +51,7 @@ function CountingGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <button
             key={c}
             type="button"
-            className="answer-button"
+            className={`answer-button ${answerState(disabled, c === q.count)}`}
             disabled={disabled}
             onClick={() =>
               answer(
@@ -62,7 +62,7 @@ function CountingGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                   selected: c,
                   correctAnswer: q.count,
                 },
-                1000,
+                5000,
                 nextQuestion,
               )
             }
@@ -71,7 +71,7 @@ function CountingGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={q.count} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={q.count} disabled={disabled} onNext={next} />
     </div>
   )
 }

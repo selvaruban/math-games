@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle } from './helpers'
+import { randInt, shuffle, answerState } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -22,7 +22,7 @@ function makeQuestion(settings) {
 
 function VolumeGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
-  const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
 
   function nextQuestion() {
     setQ(makeQuestion(settings))
@@ -37,7 +37,7 @@ function VolumeGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <button
             key={i}
             type="button"
-            className="glass-btn"
+            className={`glass-btn ${answerState(disabled, i === q.targetIndex)}`}
             disabled={disabled}
             onClick={() =>
               answer(
@@ -48,7 +48,7 @@ function VolumeGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                   selected: i === q.targetIndex ? NAMES[q.ask] : `glass ${i + 1}`,
                   correctAnswer: NAMES[q.ask],
                 },
-                1000,
+                5000,
                 nextQuestion,
               )
             }
@@ -59,7 +59,7 @@ function VolumeGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={NAMES[q.ask]} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={NAMES[q.ask]} disabled={disabled} onNext={next} />
     </div>
   )
 }

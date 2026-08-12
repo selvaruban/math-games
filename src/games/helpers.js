@@ -33,3 +33,9 @@ export const EMOJIS = ['⭐', '🍎', '🐶', '🚗', '🎈', '🐟', '🍪', '�
 export function randomEmoji() {
   return EMOJIS[randInt(0, EMOJIS.length - 1)]
 }
+
+// During feedback, help the right answer stand out: the correct option
+// turns green with a checkmark and the wrong ones fade out.
+export function answerState(disabled, isThisCorrect) {
+  return disabled ? (isThisCorrect ? 'btn-correct' : 'btn-dim') : ''
+}

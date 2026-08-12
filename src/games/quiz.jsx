@@ -9,10 +9,24 @@ export function RoundDots({ round, total }) {
   )
 }
 
-export function Feedback({ feedback, correctAnswer, disabled }) {
+export function Feedback({ feedback, correctAnswer, disabled, onNext }) {
   if (!feedback || !disabled) return null
   if (feedback.ok) {
-    return <div className="feedback good">🌟 Great job! 🌟</div>
+    return (
+      <>
+        <button type="button" className="feedback good tappable" onClick={onNext}>
+          🌟 Great job! <span className="feedback-arrow">Continue ➔</span>
+        </button>
+        <div className="reward-float" aria-hidden="true">
+          <span className="reward-points">+10 ⭐</span>
+          <span className="reward-correct">+1 ✔</span>
+        </div>
+      </>
+    )
   }
-  return <div className="feedback bad">Oops! The answer was {correctAnswer}.</div>
+  return (
+    <button type="button" className="feedback bad tappable" onClick={onNext}>
+      Oops! The answer was {correctAnswer}. <span className="feedback-arrow">Continue ➔</span>
+    </button>
+  )
 }

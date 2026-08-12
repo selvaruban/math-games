@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle } from './helpers'
+import { randInt, shuffle, answerState } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -13,7 +13,7 @@ function makeQuestion(settings) {
   const dist = pickDistractors(target, [av, bv], 2)
   if (dist.length < 2) return makeQuestion(settings)
   const values = shuffle([av, bv, ...dist])
-  return { values, target }
+  return { values, pair: [av, bv], target }
 }
 
 // Pick `count` dice values that cannot combine with any other shown die to
@@ -32,7 +32,7 @@ function pickDistractors(target, pair, count) {
 function DiceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
   const [marked, setMarked] = useState([])
-  const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
 
   function nextQuestion() {
     setQ(makeQuestion(settings))
@@ -52,7 +52,7 @@ function DiceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           selected: `${next.map((x) => q.values[x]).join(' + ')} = ${sum}`,
           correctAnswer: q.target,
         },
-        1200,
+        5000,
         () => {
           setMarked([])
           nextQuestion()
@@ -72,7 +72,7 @@ function DiceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <button
             key={i}
             type="button"
-            className={`dice-btn ${marked.includes(i) ? 'picked' : ''}`}
+            className={`dice-btn ${marked.includes(i) ? 'picked' : ''} ${answerState(disabled, q.pair.includes(v))}`}
             disabled={disabled}
             onClick={() => onDiceTap(i)}
           >
@@ -81,7 +81,7 @@ function DiceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={q.target} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={q.target} disabled={disabled} onNext={next} />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, uniqueChoices } from './helpers'
+import { randInt, uniqueChoices, answerState } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -27,7 +27,7 @@ function makeMissing(settings) {
 
 function BalanceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
-  const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
 
   function nextQuestion() {
     setQ(makeQuestion(settings))
@@ -79,7 +79,7 @@ function BalanceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <button
             key={c}
             type="button"
-            className="answer-button"
+            className={`answer-button ${answerState(disabled, c === q.answer)}`}
             disabled={disabled}
             onClick={() =>
               answer(
@@ -90,7 +90,7 @@ function BalanceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                   selected: c,
                   correctAnswer: q.answer,
                 },
-                1000,
+                5000,
                 nextQuestion,
               )
             }
@@ -99,7 +99,7 @@ function BalanceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={q.answer} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={q.answer} disabled={disabled} onNext={next} />
     </div>
   )
 }

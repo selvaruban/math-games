@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, uniqueChoices } from './helpers'
+import { randInt, uniqueChoices, answerState } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -11,17 +11,14 @@ function makeQuestion(settings) {
 
 function NumberMatchGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
-  const [reveal, setReveal] = useState(null)
-  const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
 
   function nextQuestion() {
     setQ(makeQuestion(settings))
-    setReveal(null)
   }
 
   function pick(size) {
     if (disabled) return
-    if (size !== q.num) setReveal(q.num)
     answer(
       {
         isCorrect: size === q.num,
@@ -30,7 +27,7 @@ function NumberMatchGame({ settings, onFinish, rounds = 10, gameName = '' }) {
         selected: size,
         correctAnswer: q.num,
       },
-      1000,
+      5000,
       nextQuestion,
     )
   }
@@ -46,7 +43,7 @@ function NumberMatchGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <button
             key={i}
             type="button"
-            className={`group-button ${disabled && size === reveal ? 'correct-group' : ''} ${disabled && size !== q.num && size !== reveal ? 'dim-group' : ''}`}
+            className={`group-button ${answerState(disabled, size === q.num)}`}
             disabled={disabled}
             onClick={() => pick(size)}
           >
@@ -55,7 +52,7 @@ function NumberMatchGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={q.num} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={q.num} disabled={disabled} onNext={next} />
     </div>
   )
 }

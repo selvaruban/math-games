@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt } from './helpers'
+import { randInt, answerState } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots } from './quiz'
 
@@ -18,12 +18,10 @@ function makeQuestion(settings) {
 
 function BiggestSmallestGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
-  const [chosen, setChosen] = useState(null)
   const { round, disabled, answer, total } = useGame(rounds, onFinish)
 
   function pick(card) {
     if (disabled) return
-    setChosen(card)
     answer(
       {
         isCorrect: card === q.target,
@@ -32,15 +30,10 @@ function BiggestSmallestGame({ settings, onFinish, rounds = 10, gameName = '' })
         selected: card,
         correctAnswer: q.target,
       },
-      1000,
-      () => {
-        setQ(makeQuestion(settings))
-        setChosen(null)
-      },
+      5000,
+      () => setQ(makeQuestion(settings)),
     )
   }
-
-  const correctCard = disabled && chosen !== q.target ? q.target : null
 
   return (
     <div className="game">
@@ -57,9 +50,7 @@ function BiggestSmallestGame({ settings, onFinish, rounds = 10, gameName = '' })
           <button
             key={card}
             type="button"
-            className={`number-card ${
-              card === correctCard ? 'right-pick' : ''
-            } ${chosen === card && card !== q.target ? 'wrong-pick' : ''}`}
+            className={`number-card ${answerState(disabled, card === q.target)}`}
             disabled={disabled}
             onClick={() => pick(card)}
           >

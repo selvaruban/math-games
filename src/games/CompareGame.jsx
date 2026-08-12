@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle } from './helpers'
+import { randInt, shuffle, answerState } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -20,7 +20,7 @@ function makeQuestion(settings) {
 
 function CompareGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
-  const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
 
   function nextQuestion() {
     setQ(makeQuestion(settings))
@@ -42,7 +42,7 @@ function CompareGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <button
             key={c.name}
             type="button"
-            className="compare-card"
+            className={`compare-card ${answerState(disabled, c.name === q.correct)}`}
             disabled={disabled}
             onClick={() =>
               answer(
@@ -53,7 +53,7 @@ function CompareGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                   selected: c.name,
                   correctAnswer: q.correct,
                 },
-                1000,
+                5000,
                 nextQuestion,
               )
             }
@@ -67,7 +67,7 @@ function CompareGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={q.correct} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={q.correct} disabled={disabled} onNext={next} />
     </div>
   )
 }

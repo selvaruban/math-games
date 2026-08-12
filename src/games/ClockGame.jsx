@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle } from './helpers'
+import { randInt, shuffle, answerState } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -115,7 +115,7 @@ function ClockFace({ time, size = 130 }) {
 
 function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
-  const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
 
   function nextQuestion() {
     setQ(makeQuestion(settings))
@@ -134,7 +134,7 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
             <button
               key={key(c)}
               type="button"
-              className="answer-button time-answer"
+              className={`answer-button time-answer ${answerState(disabled, key(c) === key(q.time))}`}
               disabled={disabled}
               onClick={() =>
                 answer(
@@ -145,7 +145,7 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                     selected: wordTime(c),
                     correctAnswer: wordTime(q.time),
                   },
-                  1000,
+                  5000,
                   nextQuestion,
                 )
               }
@@ -154,7 +154,7 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
             </button>
           ))}
         </div>
-        <Feedback feedback={feedback} correctAnswer={wordTime(q.time)} disabled={disabled} />
+        <Feedback feedback={feedback} correctAnswer={wordTime(q.time)} disabled={disabled} onNext={next} />
       </div>
     )
   }
@@ -168,7 +168,7 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <button
             key={i}
             type="button"
-            className="clock-btn"
+            className={`clock-btn ${answerState(disabled, key(t) === key(q.time))}`}
             disabled={disabled}
             onClick={() =>
               answer(
@@ -179,7 +179,7 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                   selected: `clock ${i + 1} (${wordTime(t)})`,
                   correctAnswer: wordTime(q.time),
                 },
-                1000,
+                5000,
                 nextQuestion,
               )
             }
@@ -188,7 +188,7 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={wordTime(q.time)} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={wordTime(q.time)} disabled={disabled} onNext={next} />
     </div>
   )
 }

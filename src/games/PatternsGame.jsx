@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle } from './helpers'
+import { randInt, shuffle, answerState } from './helpers'
 import { Shape } from './Shapes'
 import { SHAPE_NAMES } from './shapeMeta'
 import { useGame } from './useGame'
@@ -49,7 +49,7 @@ function makeQuestion(settings) {
 
 function PatternsGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
-  const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
 
   function nextQuestion() {
     setQ(makeQuestion(settings))
@@ -72,7 +72,7 @@ function PatternsGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <button
             key={i}
             type="button"
-            className="shape-btn"
+            className={`shape-btn ${answerState(disabled, itemKey(c) === itemKey(q.answer))}`}
             disabled={disabled}
             onClick={() =>
               answer(
@@ -83,7 +83,7 @@ function PatternsGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                   selected: describe(c),
                   correctAnswer: describe(q.answer),
                 },
-                1000,
+                5000,
                 nextQuestion,
               )
             }
@@ -92,7 +92,7 @@ function PatternsGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={describe(q.answer)} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={describe(q.answer)} disabled={disabled} onNext={next} />
     </div>
   )
 }

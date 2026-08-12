@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react'
-import { randInt, uniqueChoices } from './helpers'
+import { randInt, uniqueChoices, answerState } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -24,7 +24,7 @@ function randomQuestion(settings) {
 function AdditionGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => randomQuestion(settings))
   const [choices, setChoices] = useState(() => makeChoices(q.sum))
-  const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
 
   function nextQuestion() {
     const nq = randomQuestion(settings)
@@ -60,7 +60,7 @@ function AdditionGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <button
             key={c}
             type="button"
-            className="answer-button"
+            className={`answer-button ${answerState(disabled, c === q.sum)}`}
             disabled={disabled}
             onClick={() =>
               answer(
@@ -71,7 +71,7 @@ function AdditionGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                   selected: c,
                   correctAnswer: q.sum,
                 },
-                1000,
+                5000,
                 nextQuestion,
               )
             }
@@ -80,7 +80,7 @@ function AdditionGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={q.sum} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={q.sum} disabled={disabled} onNext={next} />
     </div>
   )
 }

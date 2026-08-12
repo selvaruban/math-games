@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle } from './helpers'
+import { randInt, shuffle, answerState } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -66,7 +66,7 @@ function makeQuestion(settings) {
 
 function LongShortGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
-  const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
 
   function nextQuestion() {
     setQ(makeQuestion(settings))
@@ -85,7 +85,7 @@ function LongShortGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <button
             key={i}
             type="button"
-            className="pencil-btn"
+            className={`pencil-btn ${answerState(disabled, i === q.answer)}`}
             disabled={disabled}
             onClick={() =>
               answer(
@@ -96,7 +96,7 @@ function LongShortGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                   selected: `${q.item.label} ${i + 1}`,
                   correctAnswer: ask,
                 },
-                1000,
+                5000,
                 nextQuestion,
               )
             }
@@ -105,7 +105,7 @@ function LongShortGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={ask} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={ask} disabled={disabled} onNext={next} />
     </div>
   )
 }

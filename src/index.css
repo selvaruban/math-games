@@ -1231,6 +1231,45 @@ button {
   color: #0a7a4d;
 }
 
+button.feedback {
+  border: none;
+  font-family: inherit;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+button.feedback.tappable {
+  --fb-shadow: #d8c9a3;
+  box-shadow: 0 4px 0 var(--fb-shadow);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+}
+
+button.feedback.tappable.good {
+  --fb-shadow: #6fce9c;
+}
+
+button.feedback.tappable.bad {
+  --fb-shadow: #f2a2a4;
+}
+
+button.feedback.tappable:hover {
+  filter: brightness(1.04);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--fb-shadow);
+}
+
+button.feedback.tappable:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 var(--fb-shadow);
+}
+
+.feedback-arrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  opacity: 0.85;
+  margin-left: 6px;
+}
+
 .feedback.bad {
   background: #ffe3e3;
   color: #c0392b;
@@ -1867,6 +1906,72 @@ button {
   font-size: 1.6rem;
   font-weight: 800;
   color: #e76f51;
+}
+
+/* Winning answer highlight */
+.btn-correct {
+  position: relative;
+  background: #2f9e44 !important;
+  border-color: #1a7f38 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 0 #1a7f38 !important;
+  opacity: 1 !important;
+  transform: scale(1.06);
+}
+
+.btn-correct::after {
+  content: '✔';
+  position: absolute;
+  top: 4px;
+  right: 7px;
+  font-size: 1.15rem;
+  color: #fff;
+}
+
+.btn-dim {
+  opacity: 0.45 !important;
+}
+
+/* Floating reward animation */
+@keyframes reward-rise {
+  0% {
+    transform: translate(-50%, 0) scale(0.7);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -14px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50vh) scale(1);
+  }
+}
+
+.reward-float {
+  position: fixed;
+  left: 50%;
+  bottom: 20%;
+  transform: translate(-50%, 0);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  background: #ffd43b;
+  color: #5c3a00;
+  border-radius: 999px;
+  padding: 6px 20px;
+  font-weight: 800;
+  font-size: 1.3rem;
+  box-shadow: 0 3px 0 #e0a82e;
+  pointer-events: none;
+  animation: reward-rise 0.95s ease-out forwards;
+}
+
+.reward-correct {
+  font-size: 0.85rem;
+  opacity: 0.9;
 }
 
 

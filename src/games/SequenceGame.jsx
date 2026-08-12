@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, uniqueChoices, clamp } from './helpers'
+import { randInt, uniqueChoices, clamp, answerState } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -33,7 +33,7 @@ function makeChoices(answer, seq, step, maxStart) {
 
 function SequenceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
-  const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
   const question = q.seq.map((n, i) => (i === q.blankIndex ? '?' : n)).join(' · ')
 
   function nextQuestion() {
@@ -62,7 +62,7 @@ function SequenceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <button
             key={c}
             type="button"
-            className="answer-button"
+            className={`answer-button ${answerState(disabled, c === q.answer)}`}
             disabled={disabled}
             onClick={() =>
               answer(
@@ -73,7 +73,7 @@ function SequenceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                   selected: c,
                   correctAnswer: q.answer,
                 },
-                1000,
+                5000,
                 nextQuestion,
               )
             }
@@ -82,7 +82,7 @@ function SequenceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={q.answer} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={q.answer} disabled={disabled} onNext={next} />
     </div>
   )
 }

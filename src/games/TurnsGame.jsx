@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt } from './helpers'
+import { randInt, answerState } from './helpers'
 import { LShape } from './Shapes'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
@@ -14,7 +14,7 @@ function makeQuestion(settings) {
 
 function TurnsGame({ settings, onFinish, rounds = 10, gameName = '' }) {
   const [q, setQ] = useState(() => makeQuestion(settings))
-  const { round, feedback, disabled, answer, total } = useGame(rounds, onFinish)
+  const { round, feedback, disabled, answer, next, total } = useGame(rounds, onFinish)
 
   function nextQuestion() {
     setQ(makeQuestion(settings))
@@ -34,7 +34,7 @@ function TurnsGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <button
             key={t}
             type="button"
-            className="answer-button wide"
+            className={`answer-button wide ${answerState(disabled, t === q.turn)}`}
             disabled={disabled}
             onClick={() =>
               answer(
@@ -45,7 +45,7 @@ function TurnsGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                   selected: TURN_NAME[t],
                   correctAnswer: TURN_NAME[q.turn],
                 },
-                1000,
+                5000,
                 nextQuestion,
               )
             }
@@ -54,7 +54,7 @@ function TurnsGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={TURN_NAME[q.turn]} disabled={disabled} />
+      <Feedback feedback={feedback} correctAnswer={TURN_NAME[q.turn]} disabled={disabled} onNext={next} />
     </div>
   )
 }
