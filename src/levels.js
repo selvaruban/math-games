@@ -9,7 +9,7 @@ export const LEVELS = [
   {
     age: 7,
     title: 'Age 7',
-    emoji: '🐤',
+    emoji: '🐥',
     color: '#4ecdc4',
     blurb: 'Count to 20, add (+), and take away (−) up to 20!',
   },
