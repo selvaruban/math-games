@@ -4,7 +4,8 @@ import { pickGameId, tierSettings, ageToTier, TIER_INFO, MAX_TIER } from './smar
 import { RoundDots } from './quiz'
 
 // Adaptive engine:
-// - Correct: streak + 1. Two in a row = Level Up (tier + 1), streak resets.
+// - Correct: streak + 1. Every 2 in a row = Level Up (tier + 1). The streak
+//   keeps counting (1, 2, 3 ...) and only resets on a wrong answer.
 // - Wrong: streak = 0 and tier steps down 1 (min tier 1) so the child gets an
 //   easier question to rebuild confidence.
 //
@@ -27,12 +28,9 @@ function SmartChallengeGame({ settings, onFinish, rounds = 30 }) {
     const isCorrect = correctThisQuestion >= 1
     const newCorrect = correct + (isCorrect ? 1 : 0)
     let newTier = tier
-    let newStreak = isCorrect ? streak + 1 : 0
+    const newStreak = isCorrect ? streak + 1 : 0
     if (isCorrect) {
-      if (newStreak === 2) {
-        if (tier < MAX_TIER) newTier = tier + 1
-        newStreak = 0
-      }
+      if (newStreak % 2 === 0 && tier < MAX_TIER) newTier = tier + 1
     } else {
       newTier = Math.max(1, tier - 1)
     }
