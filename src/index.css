@@ -1507,9 +1507,29 @@ button.feedback.tappable:active {
     font-size: 2.4rem;
   }
 
+  .glass-row {
+    gap: 12px;
+    min-height: 100px;
+    padding: 0 4px;
+  }
+
+  .glass-btn {
+    padding: 4px;
+  }
+
   .glass {
-    width: 52px;
-    height: 80px;
+    max-width: 64px;
+  }
+
+  .glass-nums {
+    gap: 12px;
+    margin-top: 6px;
+  }
+
+  .glass-num {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
   }
 
   .rod-cell {
@@ -1532,8 +1552,13 @@ button.feedback.tappable:active {
   }
 
   .pencil-row {
-    gap: 14px;
-    min-height: 120px;
+    gap: 12px;
+    min-height: 0;
+    padding: 4px 4px;
+  }
+
+  .pencil-nums {
+    gap: 12px;
   }
 
   .turns-row {
@@ -1624,20 +1649,29 @@ button.feedback.tappable:active {
 }
 
 /* Glass fill */
+.volume-area {
+  align-self: stretch;
+}
+
 .glass-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(var(--glasses, 3), minmax(0, 1fr));
+  align-items: end;
   gap: 24px;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-end;
+  min-height: 150px;
+  padding: 4px 10px;
 }
 
 .glass-btn {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  min-width: 0;
   background: none;
-  border: 4px solid transparent;
+  border: none;
   border-radius: 18px;
   padding: 8px;
+  cursor: pointer;
   transition: transform 0.1s ease;
 }
 
@@ -1645,11 +1679,40 @@ button.feedback.tappable:active {
   transform: scale(1.06);
 }
 
+.glass-ground {
+  height: 0;
+  border-top: 3px dashed rgba(177, 137, 104, 0.45);
+  margin: 2px 6px;
+}
+
+.glass-nums {
+  display: grid;
+  grid-template-columns: repeat(var(--glasses, 3), minmax(0, 1fr));
+  justify-items: center;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.glass-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #d9c9a3;
+  color: #6b5b3e;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
 .glass {
   position: relative;
   display: block;
-  width: 64px;
-  height: 96px;
+  width: 100%;
+  max-width: 88px;
+  aspect-ratio: 88 / 132;
   border: 4px solid #7fc4e8;
   border-top: 0;
   border-radius: 6px 6px 16px 16px;
@@ -1829,28 +1892,62 @@ button.feedback.tappable:active {
 }
 
 /* Longest or shortest — vertical items */
+.longest-area {
+  align-self: stretch;
+}
+
 .pencil-row {
-  display: flex;
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: repeat(var(--pencils, 3), 1fr);
+  align-items: end;
+  justify-items: center;
   gap: 24px;
-  justify-content: center;
-  min-height: 160px;
+  min-height: 230px;
+  padding: 4px 10px;
 }
 
 .pencil-btn {
-  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
+  justify-content: center;
   background: none;
-  border: 4px solid transparent;
+  border: none;
   border-radius: 12px;
   padding: 6px;
+  cursor: pointer;
   transition: transform 0.1s ease;
 }
 
 .pencil-btn:hover:not(:disabled) {
-  transform: scale(1.05);
+  transform: scale(1.03);
+}
+
+.pencil-ground {
+  height: 0;
+  border-top: 3px dashed rgba(177, 137, 104, 0.45);
+  margin: 2px 6px;
+}
+
+.pencil-nums {
+  display: grid;
+  grid-template-columns: repeat(var(--pencils, 3), 1fr);
+  justify-items: center;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.pencil-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #d9c9a3;
+  color: #6b5b3e;
+  font-size: 1rem;
+  font-weight: 800;
 }
 
 /* Turns */

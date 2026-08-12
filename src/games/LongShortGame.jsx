@@ -11,7 +11,8 @@ const ITEMS = [
 ]
 
 function ItemShape({ type, height }) {
-  const props = { width: 26, height, viewBox: '0 0 30 100', preserveAspectRatio: 'none' }
+  const width = Math.max(20, Math.round(height * 0.3))
+  const props = { width, height, viewBox: '0 0 30 100', preserveAspectRatio: 'none' }
   if (type === 'pencil') {
     return (
       <svg {...props} aria-hidden="true">
@@ -80,31 +81,40 @@ function LongShortGame({ settings, onFinish, rounds = 10, gameName = '' }) {
       <div className="question">
         Tap the {ask} {q.item.label}.
       </div>
-      <div className="pencil-row">
-        {q.lengths.map((len, i) => (
-          <button
-            key={i}
-            type="button"
-            className={`pencil-btn ${answerState(disabled, i === q.answer)}`}
-            disabled={disabled}
-            onClick={() =>
-              answer(
-                {
-                  isCorrect: i === q.answer,
-                  game: gameName,
-                  question: `Tap the ${ask} ${q.item.label}`,
-                  selected: `${q.item.label} ${i + 1}`,
-                  correctAnswer: ask,
-                },
-                5000,
-                nextQuestion,
-              )
-            }
-          >
-            <span className="option-num">{i + 1}</span>
-            <ItemShape type={q.item.id} height={len * 7} />
-          </button>
-        ))}
+      <div className="longest-area" style={{ '--pencils': q.lengths.length }}>
+        <div className="pencil-row">
+          {q.lengths.map((len, i) => (
+            <button
+              key={i}
+              type="button"
+              className={`pencil-btn ${answerState(disabled, i === q.answer)}`}
+              disabled={disabled}
+              onClick={() =>
+                answer(
+                  {
+                    isCorrect: i === q.answer,
+                    game: gameName,
+                    question: `Tap the ${ask} ${q.item.label}`,
+                    selected: `${q.item.label} ${i + 1}`,
+                    correctAnswer: ask,
+                  },
+                  5000,
+                  nextQuestion,
+                )
+              }
+            >
+              <ItemShape type={q.item.id} height={len * 18} />
+            </button>
+          ))}
+        </div>
+        <div className="pencil-ground" aria-hidden="true" />
+        <div className="pencil-nums" aria-hidden="true">
+          {q.lengths.map((_, i) => (
+            <span key={i} className="pencil-num">
+              {i + 1}
+            </span>
+          ))}
+        </div>
       </div>
       <Feedback
         feedback={feedback}

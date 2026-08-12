@@ -32,33 +32,42 @@ function VolumeGame({ settings, onFinish, rounds = 10, gameName = '' }) {
     <div className="game">
       <RoundDots round={round} total={total} />
       <div className="question">Tap the glass that is {NAMES[q.ask]}.</div>
-      <div className="glass-row">
-        {q.levels.map((lvl, i) => (
-          <button
-            key={i}
-            type="button"
-            className={`glass-btn ${answerState(disabled, i === q.targetIndex)}`}
-            disabled={disabled}
-            onClick={() =>
-              answer(
-                {
-                  isCorrect: i === q.targetIndex,
-                  game: gameName,
-                  question: `Tap the glass that is ${NAMES[q.ask]}`,
-                  selected: i === q.targetIndex ? NAMES[q.ask] : `glass ${i + 1}`,
-                  correctAnswer: NAMES[q.ask],
-                },
-                5000,
-                nextQuestion,
-              )
-            }
-          >
-            <span className="option-num">{i + 1}</span>
-            <span className="glass">
-              <span className="glass-liquid" style={{ height: `${lvl}%` }} />
+      <div className="volume-area" style={{ '--glasses': q.levels.length }}>
+        <div className="glass-row">
+          {q.levels.map((lvl, i) => (
+            <button
+              key={i}
+              type="button"
+              className={`glass-btn ${answerState(disabled, i === q.targetIndex)}`}
+              disabled={disabled}
+              onClick={() =>
+                answer(
+                  {
+                    isCorrect: i === q.targetIndex,
+                    game: gameName,
+                    question: `Tap the glass that is ${NAMES[q.ask]}`,
+                    selected: i === q.targetIndex ? NAMES[q.ask] : `glass ${i + 1}`,
+                    correctAnswer: NAMES[q.ask],
+                  },
+                  5000,
+                  nextQuestion,
+                )
+              }
+            >
+              <span className="glass">
+                <span className="glass-liquid" style={{ height: `${lvl}%` }} />
+              </span>
+            </button>
+          ))}
+        </div>
+        <div className="glass-ground" aria-hidden="true" />
+        <div className="glass-nums" aria-hidden="true">
+          {q.levels.map((_, i) => (
+            <span key={i} className="glass-num">
+              {i + 1}
             </span>
-          </button>
-        ))}
+          ))}
+        </div>
       </div>
       <Feedback
         feedback={feedback}
