@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle, answerState } from './helpers'
+import { randInt, shuffle, answerState, ordinal } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -130,7 +130,7 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
           <ClockFace time={q.time} />
         </div>
         <div className="answer-row">
-          {q.choices.map((c) => (
+          {q.choices.map((c, i) => (
             <button
               key={key(c)}
               type="button"
@@ -150,11 +150,18 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
                 )
               }
             >
+              <span className="option-num">{i + 1}</span>
               {wordTime(c)}
             </button>
           ))}
         </div>
-        <Feedback feedback={feedback} correctAnswer={wordTime(q.time)} disabled={disabled} onNext={next} />
+        <Feedback
+          feedback={feedback}
+          correctAnswer={wordTime(q.time)}
+          disabled={disabled}
+          onNext={next}
+          wrongHint={`It was the ${ordinal(q.choices.findIndex((c) => key(c) === key(q.time)) + 1)} one.`}
+        />
       </div>
     )
   }
@@ -184,11 +191,18 @@ function ClockGame({ settings, onFinish, rounds = 10, gameName = '' }) {
               )
             }
           >
+            <span className="option-num">{i + 1}</span>
             <ClockFace time={t} size={110} />
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={wordTime(q.time)} disabled={disabled} onNext={next} />
+      <Feedback
+        feedback={feedback}
+        correctAnswer={wordTime(q.time)}
+        disabled={disabled}
+        onNext={next}
+        wrongHint={`It was the ${ordinal(q.clocks.findIndex((t) => key(t) === key(q.time)) + 1)} one.`}
+      />
     </div>
   )
 }

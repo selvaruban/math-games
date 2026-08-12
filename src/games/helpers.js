@@ -39,3 +39,11 @@ export function randomEmoji() {
 export function answerState(disabled, isThisCorrect) {
   return disabled ? (isThisCorrect ? 'btn-correct' : 'btn-dim') : ''
 }
+
+// "1st", "2nd", "3rd", "4th" ... for pointing at numbered answer choices.
+export function ordinal(n) {
+  const s = ['th', 'st', 'nd', 'rd']
+  const v = n % 100
+  const k = (v - 20) % 10
+  return n + (s[k] || s[v] || s[0])
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle, answerState } from './helpers'
+import { randInt, shuffle, answerState, ordinal } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -101,11 +101,18 @@ function LongShortGame({ settings, onFinish, rounds = 10, gameName = '' }) {
               )
             }
           >
+            <span className="option-num">{i + 1}</span>
             <ItemShape type={q.item.id} height={len * 7} />
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={ask} disabled={disabled} onNext={next} />
+      <Feedback
+        feedback={feedback}
+        correctAnswer={ask}
+        disabled={disabled}
+        onNext={next}
+        wrongHint={`It was the ${ordinal(q.answer + 1)} one.`}
+      />
     </div>
   )
 }

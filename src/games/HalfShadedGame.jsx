@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle, answerState } from './helpers'
+import { randInt, shuffle, answerState, ordinal } from './helpers'
 import { ShadedShape } from './Shapes'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
@@ -46,11 +46,18 @@ function HalfShadedGame({ settings, onFinish, rounds = 10, gameName = '' }) {
               )
             }
           >
+            <span className="option-num">{i + 1}</span>
             <ShadedShape kind={q.kind} fraction={f} />
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer="half" disabled={disabled} onNext={next} />
+      <Feedback
+        feedback={feedback}
+        correctAnswer="half"
+        disabled={disabled}
+        onNext={next}
+        wrongHint={`It was the ${ordinal(q.answer + 1)} one.`}
+      />
     </div>
   )
 }

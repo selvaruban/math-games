@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle, answerState } from './helpers'
+import { randInt, shuffle, answerState, ordinal } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -53,13 +53,20 @@ function VolumeGame({ settings, onFinish, rounds = 10, gameName = '' }) {
               )
             }
           >
+            <span className="option-num">{i + 1}</span>
             <span className="glass">
               <span className="glass-liquid" style={{ height: `${lvl}%` }} />
             </span>
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={NAMES[q.ask]} disabled={disabled} onNext={next} />
+      <Feedback
+        feedback={feedback}
+        correctAnswer={NAMES[q.ask]}
+        disabled={disabled}
+        onNext={next}
+        wrongHint={`It was the ${ordinal(q.targetIndex + 1)} one.`}
+      />
     </div>
   )
 }

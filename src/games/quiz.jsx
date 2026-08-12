@@ -9,7 +9,7 @@ export function RoundDots({ round, total }) {
   )
 }
 
-export function Feedback({ feedback, correctAnswer, disabled, onNext }) {
+export function Feedback({ feedback, correctAnswer, disabled, onNext, wrongHint }) {
   if (!feedback || !disabled) return null
   if (feedback.ok) {
     return (
@@ -24,9 +24,10 @@ export function Feedback({ feedback, correctAnswer, disabled, onNext }) {
       </>
     )
   }
+  const bad = wrongHint ? `Oops! ${wrongHint}` : `Oops! The answer was ${correctAnswer}.`
   return (
     <button type="button" className="feedback bad tappable" onClick={onNext}>
-      Oops! The answer was {correctAnswer}. <span className="feedback-arrow">Continue ➔</span>
+      {bad} <span className="feedback-arrow">Continue ➔</span>
     </button>
   )
 }

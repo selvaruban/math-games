@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, uniqueChoices, answerState } from './helpers'
+import { randInt, uniqueChoices, answerState, ordinal } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -47,12 +47,19 @@ function NumberMatchGame({ settings, onFinish, rounds = 10, gameName = '' }) {
             disabled={disabled}
             onClick={() => pick(size)}
           >
+            <span className="option-num">{i + 1}</span>
             <span className="group-emoji">{'🍪'.repeat(size)}</span>
             <span className="group-label">this one!</span>
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={q.num} disabled={disabled} onNext={next} />
+      <Feedback
+        feedback={feedback}
+        correctAnswer={q.num}
+        disabled={disabled}
+        onNext={next}
+        wrongHint={`It was the ${ordinal(q.groups.indexOf(q.num) + 1)} one.`}
+      />
     </div>
   )
 }

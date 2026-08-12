@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle, answerState } from './helpers'
+import { randInt, shuffle, answerState, ordinal } from './helpers'
 import { useGame } from './useGame'
 import { RoundDots, Feedback } from './quiz'
 
@@ -61,6 +61,10 @@ function DiceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
     }
   }
 
+  const correctPositions = q.values
+    .map((v, i) => (q.pair.includes(v) ? i + 1 : null))
+    .filter(Boolean)
+
   return (
     <div className="game">
       <RoundDots round={round} total={total} />
@@ -76,12 +80,19 @@ function DiceGame({ settings, onFinish, rounds = 10, gameName = '' }) {
             disabled={disabled}
             onClick={() => onDiceTap(i)}
           >
+            <span className="option-num">{i + 1}</span>
             <span className="dice-face">{DICE_FACES[v - 1]}</span>
             <span className="dice-num">{v}</span>
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={q.target} disabled={disabled} onNext={next} />
+      <Feedback
+        feedback={feedback}
+        correctAnswer={q.target}
+        disabled={disabled}
+        onNext={next}
+        wrongHint={`It was the ${correctPositions.map(ordinal).join(' and ')} dice.`}
+      />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle, answerState } from './helpers'
+import { randInt, shuffle, answerState, ordinal } from './helpers'
 import { Shape } from './Shapes'
 import { SHAPE_NAMES } from './shapeMeta'
 import { useGame } from './useGame'
@@ -88,11 +88,18 @@ function PatternsGame({ settings, onFinish, rounds = 10, gameName = '' }) {
               )
             }
           >
+            <span className="option-num">{i + 1}</span>
             <Shape kind={c.shape} fill={c.value} size={52} />
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={describe(q.answer)} disabled={disabled} onNext={next} />
+      <Feedback
+        feedback={feedback}
+        correctAnswer={describe(q.answer)}
+        disabled={disabled}
+        onNext={next}
+        wrongHint={`It was the ${ordinal(q.choices.findIndex((c) => itemKey(c) === itemKey(q.answer)) + 1)} one.`}
+      />
     </div>
   )
 }

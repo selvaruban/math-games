@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { randInt, shuffle, answerState } from './helpers'
+import { randInt, shuffle, answerState, ordinal } from './helpers'
 import { Shape } from './Shapes'
 import { SHAPE_NAMES } from './shapeMeta'
 import { useGame } from './useGame'
@@ -25,7 +25,7 @@ function ShapesGame({ settings, onFinish, rounds = 10, gameName = '' }) {
       <RoundDots round={round} total={total} />
       <div className="question">Tap the {SHAPE_NAMES[q.answer]}.</div>
       <div className="shape-row">
-        {q.choices.map((k) => (
+        {q.choices.map((k, i) => (
           <button
             key={k}
             type="button"
@@ -45,11 +45,18 @@ function ShapesGame({ settings, onFinish, rounds = 10, gameName = '' }) {
               )
             }
           >
+            <span className="option-num">{i + 1}</span>
             <Shape kind={k} />
           </button>
         ))}
       </div>
-      <Feedback feedback={feedback} correctAnswer={SHAPE_NAMES[q.answer]} disabled={disabled} onNext={next} />
+      <Feedback
+        feedback={feedback}
+        correctAnswer={SHAPE_NAMES[q.answer]}
+        disabled={disabled}
+        onNext={next}
+        wrongHint={`It was the ${ordinal(q.choices.indexOf(q.answer) + 1)} one.`}
+      />
     </div>
   )
 }
