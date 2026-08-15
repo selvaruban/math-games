@@ -53,8 +53,10 @@ function SmartChallengeGame({ settings, onFinish, rounds = 30 }) {
       <RoundDots round={index} total={total} />
       <div className="tier-row">
         <span className="tier-chip">🚀 {TIER_INFO[tier]}</span>
-        <span className="tier-level">Level {tier}/{MAX_TIER}</span>
-        {streak > 0 && <span className="streak-chip">🔥 {streak} in a row</span>}
+        <div className="tier-sub">
+          <span className="tier-level">Level {tier}/{MAX_TIER}</span>
+          {streak > 0 && <span className="streak-chip">🔥 {streak} in a row</span>}
+        </div>
       </div>
       <Game
         key={index}
